@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+
+<div class="events-container">
+     <!-- Barre de recherche ajoutée ici -->
+  <section class="search-section">
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        placeholder="Rechercher un événement..." 
+        (input)="applyFilters()"
+        class="search-input">
+      <button class="search-button">
+        <i class="search-icon">🔍</i>
+      </button>
+    </div>
+  </section>
+    <section class="filter-section">
+      <h2>Filtrer par catégorie</h2>
+      <div class="category-filters">
+        <button 
+          *ngFor="let category of categories"
+          [class.active]="selectedCategory === category"
+          (click)="selectedCategory = category">
+          {{category}}
+        </button>
+      </div>
+    </section>
+  
+    <section class="events-grid">
+      <div 
+        *ngFor="let event of filteredEvents"
+        class="event-card"
+        (click)="navigateToEvent(event.id)">
+        <div class="event-image" [style.backgroundImage]="'url(' + event.image + ')'">
+          <span class="event-price">{{event.price}}€</span>
+          <span class="event-category">{{event.category}}</span>
+        </div>
+        <div class="event-details">
+          <h3>{{event.title}}</h3>
+          <div class="event-meta">
+            <span class="date">{{event.date}}</span>
+            <span class="location">{{event.location}}</span>
+          </div>
+          <p class="event-description">{{event.description}}</p>
+          <button class="details-btn">Voir détails</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <app-footer></app-footer>

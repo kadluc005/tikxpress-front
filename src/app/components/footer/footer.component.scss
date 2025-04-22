@@ -1,0 +1,104 @@
+@use '../../../styles.scss' as global;
+@import '../../../styles.scss';
+
+/* Pied de page */
+.luxe-footer {
+  background-color: global.$primary-color;
+  color: global.$white;
+  padding: 3rem 5% 1.5rem;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-column {
+    flex: 1 1 250px;
+
+    h4 {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0.3rem 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+  }
+
+  .footer-logo {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+
+    .luxe {
+      font-weight: 700;
+      color: global.$accent-color;
+    }
+  }
+
+  .footer-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: global.$white;
+      text-decoration: none;
+      transition: color 0.3s;
+
+      &:hover {
+        color: global.$secondary-accent;
+      }
+    }
+  }
+
+  .social-icons {
+    margin-top: 0.5rem;
+    a {
+      color: global.$white;
+      font-size: 1.2rem;
+      margin-right: 0.8rem;
+      transition: color 0.3s;
+
+      &:hover {
+        color: global.$accent-color;
+      }
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

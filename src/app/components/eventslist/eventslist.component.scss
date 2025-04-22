@@ -1,0 +1,173 @@
+@use "../../../styles.scss" as global;
+@import "../../../styles.scss";
+
+
+
+.search-section {
+    margin-bottom: global.$spacing-xl;
+  
+    .search-container {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(global.$black, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+  
+      .search-input {
+        flex: 1;
+        padding: global.$spacing-md global.$spacing-lg;
+        border: none;
+        font-size: 1rem;
+        color: global.$dark-gray;
+        outline: none;
+  
+        &::placeholder {
+          color: global.$medium-gray;
+        }
+      }
+  
+      .search-button {
+        background-color: global.$primary-color;
+        color: global.$white;
+        border: none;
+        padding: 0 global.$spacing-lg;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: darken(global.$primary-color, 10%);
+        }
+  
+        .search-icon {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+.events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: global.$spacing-xl;
+
+  .filter-section {
+    margin-bottom: global.$spacing-xl;
+
+    h2 {
+      color: global.$primary-color;
+      margin-bottom: global.$spacing-md;
+    }
+
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: global.$spacing-sm;
+      margin-bottom: global.$spacing-lg;
+
+      button {
+        background-color: global.$white;
+        border: 1px solid global.$light-gray;
+        padding: global.$spacing-sm global.$spacing-md;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: global.$medium-gray;
+
+        &:hover,
+        &.active {
+          background-color: global.$primary-color;
+          color: global.$white;
+          border-color: global.$primary-color;
+        }
+      }
+    }
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: global.$spacing-xl;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .event-card {
+      @include global.card-style;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 0;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(global.$black, 0.15);
+      }
+
+      .event-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+
+        .event-price {
+          position: absolute;
+          top: global.$spacing-md;
+          right: global.$spacing-md;
+          background-color: global.$secondary-color;
+          color: global.$white;
+          padding: global.$spacing-sm global.$spacing-md;
+          border-radius: 4px;
+          font-weight: bold;
+        }
+
+        .event-category {
+          position: absolute;
+          bottom: global.$spacing-md;
+          left: global.$spacing-md;
+          background-color: rgba(global.$black, 0.7);
+          color: global.$white;
+          padding: global.$spacing-sm global.$spacing-md;
+          border-radius: 4px;
+          font-size: 0.8rem;
+        }
+      }
+
+      .event-details {
+        padding: global.$spacing-lg;
+
+        h3 {
+          color: global.$primary-color;
+          margin-bottom: global.$spacing-sm;
+          font-size: 1.2rem;
+        }
+
+        .event-meta {
+          display: flex;
+          flex-direction: column;
+          gap: global.$spacing-xl;
+          margin-bottom: global.$spacing-md;
+          color: global.$medium-gray;
+          font-size: 0.9rem;
+        }
+
+        .event-description {
+          color: global.$dark-gray;
+          font-size: 0.95rem;
+          line-height: 1.5;
+          margin-bottom: global.$spacing-lg;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .details-btn {
+          @include global.button-primary;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

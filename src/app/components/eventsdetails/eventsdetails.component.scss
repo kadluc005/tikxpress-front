@@ -1,0 +1,296 @@
+/* event-details.component.scss */
+@use "../../../styles.scss" as global;
+@import "../../../styles.scss";
+
+
+.event-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: global.$spacing-xl;
+
+  .event-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: global.$spacing-xl;
+    margin-bottom: global.$spacing-xl;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .event-image {
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(global.$black, 0.15);
+
+      .event-badge {
+        position: absolute;
+        top: global.$spacing-md;
+        left: global.$spacing-md;
+        background-color: global.$primary-color;
+        color: global.$white;
+        padding: global.$spacing-sm global.$spacing-md;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .event-rating {
+        position: absolute;
+        bottom: global.$spacing-md;
+        right: global.$spacing-md;
+        background-color: rgba(global.$black, 0.7);
+        color: global.$white;
+        padding: global.$spacing-sm global.$spacing-md;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: global.$spacing-xl;
+
+        .stars {
+          color: global.$secondary-accent;
+          letter-spacing: 2px;
+        }
+      }
+    }
+
+    .event-header-content {
+      h1 {
+        color: global.$primary-color;
+        font-size: 2.2rem;
+        margin-bottom: global.$spacing-lg;
+      }
+
+      .event-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: global.$spacing-lg;
+
+        @media (max-width: 480px) {
+          grid-template-columns: 1fr;
+        }
+
+        .meta-item {
+          display: flex;
+          gap: global.$spacing-md;
+          align-items: flex-start;
+
+          .icon {
+            font-size: 1.5rem;
+            margin-top: 4px;
+          }
+
+          .meta-label {
+            color: global.$medium-gray;
+            font-size: 0.9rem;
+            margin-bottom: global.$spacing-xl;
+          }
+
+          .meta-value {
+            color: global.$dark-gray;
+            font-weight: 500;
+            margin-bottom: global.$spacing-xl;
+          }
+
+          .meta-address {
+            color: global.$medium-gray;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+
+  .event-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: global.$spacing-xl;
+    margin-bottom: global.$spacing-xl;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .event-description {
+      h2 {
+        color: global.$primary-color;
+        font-size: 1.8rem;
+        margin-bottom: global.$spacing-md;
+      }
+
+      p {
+        color: global.$dark-gray;
+        line-height: 1.6;
+      }
+    }
+
+    .ticket-selection {
+      h2 {
+        color: global.$primary-color;
+        font-size: 1.8rem;
+        margin-bottom: global.$spacing-md;
+      }
+
+      .ticket-types {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: global.$spacing-md;
+        margin-bottom: global.$spacing-xl;
+
+        .ticket-card {
+          @include global.card-style;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+
+          &:hover {
+            border-color: global.$accent-color;
+          }
+
+          &.selected {
+            border-color: global.$secondary-color;
+            background-color: lighten(global.$secondary-color, 45%);
+          }
+
+          h3 {
+            color: global.$primary-color;
+            margin-bottom: global.$spacing-sm;
+          }
+
+          .ticket-price {
+            color: global.$secondary-color;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: global.$spacing-md;
+          }
+
+          .ticket-available {
+            color: global.$medium-gray;
+            font-size: 0.9rem;
+            margin-bottom: global.$spacing-sm;
+          }
+
+          .ticket-benefits {
+            margin: 0;
+            padding-left: global.$spacing-md;
+            color: global.$dark-gray;
+
+            li {
+              margin-bottom: global.$spacing-sm;
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+
+      .booking-section {
+        @include global.card-style;
+        padding: global.$spacing-lg;
+
+        h3 {
+          color: global.$primary-color;
+          margin-bottom: global.$spacing-lg;
+        }
+
+        .selection-details {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: global.$spacing-lg;
+
+          .selected-ticket {
+            display: flex;
+            flex-direction: column;
+
+            span:first-child {
+              font-weight: 500;
+            }
+
+            span:last-child {
+              color: global.$medium-gray;
+              font-size: 0.9rem;
+            }
+          }
+
+          .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: global.$spacing-md;
+
+            button {
+              background-color: global.$primary-color;
+              color: global.$white;
+              border: none;
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              transition: background-color 0.3s;
+
+              &:hover {
+                background-color: darken(global.$primary-color, 10%);
+              }
+            }
+          }
+        }
+
+        .total-price {
+          display: flex;
+          justify-content: space-between;
+          padding: global.$spacing-md 0;
+          border-top: 1px solid global.$light-gray;
+          border-bottom: 1px solid global.$light-gray;
+          margin-bottom: global.$spacing-lg;
+          font-weight: 700;
+          font-size: 1.1rem;
+
+          span:last-child {
+            color: global.$secondary-color;
+          }
+        }
+
+        .book-button {
+          @include global.button-primary;
+          width: 100%;
+          padding: global.$spacing-md;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .event-map {
+    h2 {
+      color: global.$primary-color;
+      font-size: 1.8rem;
+      margin-bottom: global.$spacing-md;
+    }
+
+    .map-placeholder {
+      @include global.card-style;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: lighten(global.$light-gray, 5%);
+
+      p {
+        color: global.$dark-gray;
+        margin-bottom: global.$spacing-md;
+      }
+
+      .map-button {
+        @include global.button-secondary;
+        padding: global.$spacing-sm global.$spacing-lg;
+      }
+    }
+  }
+}

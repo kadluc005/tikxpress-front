@@ -1,0 +1,91 @@
+@use '../../../styles.scss' as global;
+@import '../../../styles.scss';
+
+/* En-tête */
+.luxe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background-color: global.$primary-color;
+  color: global.$white;
+  position: relative;
+  cursor: pointer;
+
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 300;
+
+    .luxe {
+      font-weight: 700;
+      color: global.$accent-color;
+    }
+  }
+
+  .hamburger {
+    display: none;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: global.$white;
+    cursor: pointer;
+  }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: global.$secondary-accent;
+      }
+    }
+
+    .cta-btn {
+      background-color: global.$secondary-color;
+      color: $white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+
+    nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: global.$primary-color;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+      gap: 1rem;
+      display: none;
+
+      &.open {
+        display: flex;
+      }
+    }
+  }
+}

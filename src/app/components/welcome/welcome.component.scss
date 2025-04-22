@@ -1,0 +1,123 @@
+@use '../../../styles.scss' as global;
+@import '../../../styles.scss';
+// welcome.component.scss
+
+.welcome-container {
+  color: global.$dark-gray;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 3rem 5%;
+
+  .hero-section {
+    text-align: center;
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      color: global.$black;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: global.$dark-gray;
+      margin-bottom: 2rem;
+    }
+
+    .primary-cta {
+      background-color: global.$black;
+      color: global.$white;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: global.$secondary-color;
+      }
+    }
+  }
+
+  .featured-events {
+    h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: global.$black;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .event-card {
+      border: 1px solid global.$light-gray;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .event-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .event-details {
+        padding: 1.5rem;
+
+        h3 {
+          font-size: 1.3rem;
+          margin-bottom: 0.5rem;
+          color: global.$black;
+        }
+
+        .event-date,
+        .event-location {
+          color: global.$dark-gray;
+          margin-bottom: 0.5rem;
+        }
+
+        .event-price {
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin: 1rem 0;
+          color: global.$secondary-color;
+        }
+
+        .event-cta {
+          background-color: global.$black;
+          color: global.$white;
+          border: none;
+          padding: 0.5rem 1.5rem;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: global.$secondary-accent;
+          }
+        }
+      }
+    }
+  }
+}
+
+

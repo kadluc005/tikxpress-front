@@ -1,0 +1,103 @@
+<app-navbar></app-navbar>
+
+<div class="event-detail-container">
+  <div class="event-header">
+    <div class="event-image" [style.backgroundImage]="'url(' + event.image + ')'">
+      <div class="event-badge">{{event.category}}</div>
+      <div class="event-rating">
+        <span class="stars">★★★★★</span>
+        <span>{{event.rating}}/5</span>
+      </div>
+    </div>
+    <div class="event-header-content">
+      <h1>{{event.title}}</h1>
+      <div class="event-meta">
+        <div class="meta-item">
+          <i class="icon">📅</i>
+          <div>
+            <p class="meta-label">Date</p>
+            <p class="meta-value">{{event.date}} à {{event.time}}</p>
+          </div>
+        </div>
+        <div class="meta-item">
+          <i class="icon">📍</i>
+          <div>
+            <p class="meta-label">Lieu</p>
+            <p class="meta-value">{{event.location}}</p>
+            <p class="meta-address">{{event.address}}</p>
+          </div>
+        </div>
+        <div class="meta-item">
+          <i class="icon">⏱️</i>
+          <div>
+            <p class="meta-label">Durée</p>
+            <p class="meta-value">{{event.duration}}</p>
+          </div>
+        </div>
+        <div class="meta-item">
+          <i class="icon">🏢</i>
+          <div>
+            <p class="meta-label">Organisateur</p>
+            <p class="meta-value">{{event.organizer}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="event-body">
+    <div class="event-description">
+      <h2>Description</h2>
+      <p>{{event.description}}</p>
+    </div>
+
+    <div class="ticket-selection">
+      <h2>Billetterie</h2>
+      <div class="ticket-types">
+        <div *ngFor="let ticket of event.tickets" 
+             class="ticket-card"
+             [class.selected]="selectedTicketType === ticket.category"
+             (click)="selectTicketType(ticket.category)">
+          <h3>{{ticket.category}}</h3>
+          <p class="ticket-price">{{ticket.price}}€</p>
+          <p class="ticket-available">{{ticket.available}} places restantes</p>
+          <ul class="ticket-benefits">
+            <li *ngFor="let benefit of ticket.benefits">✓ {{benefit}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="selectedTicketType" class="booking-section">
+        <h3>Votre sélection</h3>
+        <div class="selection-details">
+          <div class="selected-ticket">
+            <span>{{selectedTicketType}}</span>
+            <span>{{selectedTicket?.price}}€ x {{ticketQuantity}}</span>
+          </div>
+          <div class="quantity-selector">
+            <button (click)="decrementQuantity()">-</button>
+            <span>{{ticketQuantity}}</span>
+            <button (click)="incrementQuantity()">+</button>
+          </div>
+        </div>
+        <div class="total-price">
+          <span>Total</span>
+          <span>{{totalPrice}}€</span>
+        </div>
+        <button class="book-button" (click)="bookTickets()">Réserver maintenant</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="event-map">
+    <h2>Localisation</h2>
+    <div class="map-placeholder">
+      <p>🎯 {{event.location}}</p>
+      <p>{{event.address}}</p>
+      <button class="map-button">Voir sur la carte</button>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
