@@ -1,0 +1,253 @@
+<div class="admin-page-container">
+    <div class="page-header">
+      <h1>Créer un nouvel événement</h1>
+      <button routerLink="/admin/events/list" class="back-button">
+        ← Retour à la liste
+      </button>
+    </div>
+  
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+      <!-- Section Informations de base -->
+      <div class="form-section">
+        <h2 class="section-title">Informations de base</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Titre de l'événement *</label>
+            <input type="text" formControlName="title" placeholder="Nommez votre événement">
+            <div *ngIf="basicInfo.get('title')?.invalid && basicInfo.get('title')?.touched" class="error-message">
+              <span *ngIf="basicInfo.get('title')?.errors?.['required']">Ce champ est requis</span>
+              <span *ngIf="basicInfo.get('title')?.errors?.['maxlength']">Maximum 100 caractères</span>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Catégorie *</label>
+            <select formControlName="category">
+              <option value="" disabled>Sélectionnez une catégorie</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+            </select>
+            <div *ngIf="basicInfo.get('category')?.invalid && basicInfo.get('category')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group full-width">
+            <label>Description *</label>
+            <textarea formControlName="description" rows="4" placeholder="Décrivez votre événement..."></textarea>
+            <div *ngIf="basicInfo.get('description')?.invalid && basicInfo.get('description')?.touched" class="error-message">
+              <span *ngIf="basicInfo.get('description')?.errors?.['required']">Ce champ est requis</span>
+              <span *ngIf="basicInfo.get('description')?.errors?.['maxlength']">Maximum 1000 caractères</span>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="featured">
+              <span>Événement à la une</span>
+            </label>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Section Dates -->
+      <div class="form-section">
+        <h2 class="section-title">Dates et horaires</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Date de début *</label>
+            <input type="date" formControlName="startDate" [min]="minDate | date:'yyyy-MM-dd'">
+            <div *ngIf="dateInfo.get('startDate')?.invalid && dateInfo.get('startDate')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Date de fin *</label>
+            <input type="date" formControlName="endDate" [min]="minDate | date:'yyyy-MM-dd'">
+            <div *ngIf="dateInfo.get('endDate')?.invalid && dateInfo.get('endDate')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Heure de début *</label>
+            <input type="time" formControlName="startTime">
+            <div *ngIf="dateInfo.get('startTime')?.invalid && dateInfo.get('startTime')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Heure de fin *</label>
+            <input type="time" formControlName="endTime">
+            <div *ngIf="dateInfo.get('endTime')?.invalid && dateInfo.get('endTime')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Section Lieu -->
+      <div class="form-section">
+        <h2 class="section-title">Lieu</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Lieu *</label>
+            <input type="text" formControlName="venue" placeholder="Nom du lieu">
+            <div *ngIf="locationInfo.get('venue')?.invalid && locationInfo.get('venue')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group full-width">
+            <label>Adresse *</label>
+            <input type="text" formControlName="address" placeholder="Adresse complète">
+            <div *ngIf="locationInfo.get('address')?.invalid && locationInfo.get('address')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Ville *</label>
+            <input type="text" formControlName="city" placeholder="Ville">
+            <div *ngIf="locationInfo.get('city')?.invalid && locationInfo.get('city')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Code postal *</label>
+            <input type="text" formControlName="postalCode" placeholder="75000" maxlength="5">
+            <div *ngIf="locationInfo.get('postalCode')?.invalid && locationInfo.get('postalCode')?.touched" class="error-message">
+              <span *ngIf="locationInfo.get('postalCode')?.errors?.['required']">Ce champ est requis</span>
+              <span *ngIf="locationInfo.get('postalCode')?.errors?.['pattern']">Code postal invalide</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Section Médias -->
+      <div class="form-section">
+        <h2 class="section-title">Médias</h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Image principale *</label>
+            <div class="image-upload-container">
+              <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+              <button type="button" class="upload-button" (click)="fileInput.click()">
+                <span *ngIf="!mediaInfo.get('mainImage')?.value">+ Sélectionner une image</span>
+                <span *ngIf="mediaInfo.get('mainImage')?.value">Changer l'image</span>
+              </button>
+              <div *ngIf="mediaInfo.get('mainImage')?.value" class="image-preview">
+                <img [src]="mediaInfo.get('mainImage')?.value" alt="Preview">
+              </div>
+            </div>
+            <div *ngIf="mediaInfo.get('mainImage')?.invalid && mediaInfo.get('mainImage')?.touched" class="error-message">
+              Ce champ est requis
+            </div>
+          </div>
+  
+          <div class="form-group full-width">
+            <label>Galerie d'images</label>
+            <div class="gallery-upload">
+              <input type="file" multiple (change)="onGalleryFilesSelected($event)" accept="image/*" #galleryInput style="display: none;">
+              <button type="button" class="upload-button" (click)="galleryInput.click()">
+                + Ajouter des images
+              </button>
+              <div class="gallery-preview">
+                <div *ngFor="let img of mediaInfo.get('galleryImages')?.value; let i = index" class="gallery-item">
+                  <img [src]="img" alt="Gallery preview">
+                  <button type="button" class="remove-image" (click)="removeGalleryImage(i)">×</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Section Billets -->
+      <div class="form-section">
+        <h2 class="section-title">Billets</h2>
+        
+        <div formArrayName="ticketsInfo">
+          <div *ngFor="let ticket of ticketsInfo.controls; let i = index" [formGroupName]="i" class="ticket-type-form">
+            <div class="ticket-type-header">
+              <h3>Type de billet #{{i + 1}}</h3>
+              <button *ngIf="ticketsInfo.length > 1" type="button" class="remove-button" (click)="removeTicketType(i)">
+                Supprimer
+              </button>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Type *</label>
+                <select formControlName="type">
+                  <option value="" disabled>Sélectionnez un type</option>
+                  <option *ngFor="let type of ticketTypes" [value]="type">{{type}}</option>
+                </select>
+                <div *ngIf="ticket.get('type')?.invalid && ticket.get('type')?.touched" class="error-message">
+                  Ce champ est requis
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label>Prix (€) *</label>
+                <input type="number" formControlName="price" min="0" step="0.01">
+                <div *ngIf="ticket.get('price')?.invalid && ticket.get('price')?.touched" class="error-message">
+                  <span *ngIf="ticket.get('price')?.errors?.['required']">Ce champ est requis</span>
+                  <span *ngIf="ticket.get('price')?.errors?.['min']">Le prix doit être positif</span>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label>Quantité *</label>
+                <input type="number" formControlName="quantity" min="1">
+                <div *ngIf="ticket.get('quantity')?.invalid && ticket.get('quantity')?.touched" class="error-message">
+                  <span *ngIf="ticket.get('quantity')?.errors?.['required']">Ce champ est requis</span>
+                  <span *ngIf="ticket.get('quantity')?.errors?.['min']">Minimum 1</span>
+                </div>
+              </div>
+  
+              <div class="form-group full-width">
+                <label>Avantages</label>
+                <div class="benefits-container">
+                  <input type="text" #benefitInput placeholder="Ajouter un avantage">
+                  <button type="button" class="add-benefit" (click)="addBenefit(i, benefitInput)">+</button>
+                </div>
+                <div class="benefits-list">
+                  <span *ngFor="let benefit of ticket.get('benefits')?.value; let j = index" class="benefit-tag">
+                    {{benefit}}
+                    <span (click)="removeBenefit(i, j)">×</span>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label>Date de début de vente</label>
+                <input type="date" formControlName="saleStart">
+              </div>
+  
+              <div class="form-group">
+                <label>Date de fin de vente</label>
+                <input type="date" formControlName="saleEnd">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="button" class="add-ticket-type" (click)="addTicketType()">
+          + Ajouter un type de billet
+        </button>
+      </div>
+  
+      <div class="form-actions">
+        <button type="button" class="cancel-button" routerLink="/admin/events/list">
+          Annuler
+        </button>
+        <button type="submit" class="submit-button" [disabled]="eventForm.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting">Créer l'événement</span>
+          <span *ngIf="isSubmitting">Enregistrement en cours...</span>
+        </button>
+      </div>
+    </form>
+  </div>

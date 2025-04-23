@@ -1,0 +1,48 @@
+<div class="admin-sidebar" [class.collapsed]="isCollapsed">
+    <div class="sidebar-header">
+      <h3 *ngIf="!isCollapsed">Administration</h3>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        {{ isCollapsed ? '➡️' : '⬅️' }}
+      </button>
+    </div>
+  
+    <div class="sidebar-menu">
+      <div *ngFor="let item of menuItems" class="menu-item">
+        <div 
+          class="menu-main-item"
+          [class.active]="item.isActive"
+          (click)="navigate(item.path)">
+          <span class="menu-icon">{{item.icon}}</span>
+          <span *ngIf="!isCollapsed" class="menu-title">{{item.title}}</span>
+          <span *ngIf="item.subItems && !isCollapsed" class="menu-arrow">
+            {{item.isActive ? '▼' : '▶'}}
+          </span>
+        </div>
+  
+        <div *ngIf="item.subItems && !isCollapsed && item.isActive" class="submenu">
+          <div 
+            *ngFor="let subItem of item.subItems"
+            class="submenu-item"
+            [class.active]="subItem.isActive"
+            (click)="navigate(subItem.path)">
+            <span class="submenu-icon">{{subItem.icon}}</span>
+            <span class="submenu-title">{{subItem.title}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="sidebar-footer">
+      <div class="user-info" *ngIf="!isCollapsed">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrateur</span>
+        </div>
+      </div>
+      <button class="logout-btn" [title]="isCollapsed ? 'Déconnexion' : ''">
+        <span class="logout-icon">🚪</span>
+        <span *ngIf="!isCollapsed" class="logout-text">Déconnexion</span>
+      </button>
+    </div>
+  </div>

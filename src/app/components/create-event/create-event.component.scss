@@ -1,0 +1,277 @@
+@use '../../../styles.scss' as global;
+@import '../../../styles.scss';
+.admin-page-container {
+  padding: global.$spacing-xl;
+  background-color: global.$background;
+  min-height: calc(100vh - 40px);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: global.$spacing-xl;
+
+  h1 {
+    color: global.$primary-color;
+    margin: 0;
+  }
+
+  .back-button {
+    @include global.button-secondary;
+    padding: global.$spacing-sm global.$spacing-md;
+  }
+}
+
+.event-form {
+  background-color: global.$white;
+  padding: global.$spacing-xl;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(global.$black, 0.1);
+}
+
+.form-section {
+  margin-bottom: global.$spacing-xl;
+  padding-bottom: global.$spacing-xl;
+  border-bottom: 1px solid global.$light-gray;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-title {
+    color: global.$primary-color;
+    font-size: 1.3rem;
+    margin-bottom: global.$spacing-lg;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: global.$spacing-lg;
+
+  .form-group {
+    margin-bottom: global.$spacing-md;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: global.$spacing-xs;
+      color: global.$dark-gray;
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: global.$spacing-md;
+      border: 1px solid global.$light-gray;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: global.$primary-color;
+      }
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.8rem;
+      margin-top: global.$spacing-xs;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      input {
+        width: auto;
+        margin-right: global.$spacing-sm;
+      }
+    }
+  }
+}
+
+.image-upload-container {
+  .upload-button {
+    @include global.button-secondary;
+    padding: global.$spacing-md;
+    margin-bottom: global.$spacing-md;
+  }
+
+  .image-preview {
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid global.$light-gray;
+    border-radius: 4px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+}
+
+.gallery-upload {
+  .gallery-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: global.$spacing-md;
+    margin-top: global.$spacing-md;
+
+    .gallery-item {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border: 1px solid global.$light-gray;
+      border-radius: 4px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .remove-image {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 20px;
+        height: 20px;
+        background-color: #e74c3c;
+        color: global.$white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.ticket-type-form {
+  background-color: lighten(global.$light-gray, 5%);
+  padding: global.$spacing-lg;
+  border-radius: 8px;
+  margin-bottom: global.$spacing-lg;
+
+  .ticket-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: global.$spacing-md;
+
+    h3 {
+      color: global.$primary-color;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .remove-button {
+      background-color: #e74c3c;
+      color: global.$white;
+      border: none;
+      padding: global.$spacing-xs global.$spacing-sm;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.benefits-container {
+  display: flex;
+  margin-bottom: global.$spacing-sm;
+
+  input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .add-benefit {
+    background-color: global.$secondary-color;
+    color: global.$white;
+    border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0 global.$spacing-md;
+    cursor: pointer;
+  }
+}
+
+.benefits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: global.$spacing-xs;
+
+  .benefit-tag {
+    background-color: global.$primary-color;
+    color: global.$white;
+    padding: global.$spacing-xs global.$spacing-sm;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: global.$spacing-xs;
+      cursor: pointer;
+    }
+  }
+}
+
+.add-ticket-type {
+  @include global.button-secondary;
+  padding: global.$spacing-sm global.$spacing-md;
+  margin-top: global.$spacing-md;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: global.$spacing-md;
+  margin-top: global.$spacing-xl;
+  padding-top: global.$spacing-xl;
+  border-top: 1px solid global.$light-gray;
+
+  .cancel-button {
+    background-color: global.$light-gray;
+    color: global.$dark-gray;
+    border: none;
+    padding: global.$spacing-md global.$spacing-lg;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .submit-button {
+    @include global.button-primary;
+    padding: global.$spacing-md global.$spacing-lg;
+    font-weight: 600;
+
+    &:disabled {
+      background-color: global.$medium-gray;
+      cursor: not-allowed;
+    }
+  }
+}

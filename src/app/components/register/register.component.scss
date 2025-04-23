@@ -1,0 +1,157 @@
+@use "../../../styles.scss" as global;
+@import "../../../styles.scss";
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: global.$spacing-xl;
+  background-color: global.$background;
+}
+
+.register-card {
+  @include global.card-style;
+  width: 100%;
+  max-width: 500px;
+  padding: global.$spacing-xl;
+  box-shadow: 0 4px 12px rgba(global.$black, 0.1);
+
+  .register-header {
+    text-align: center;
+    margin-bottom: global.$spacing-xl;
+
+    h2 {
+      color: global.$primary-color;
+      font-size: 1.8rem;
+      margin-bottom: global.$spacing-sm;
+    }
+
+    p {
+      color: global.$medium-gray;
+    }
+  }
+
+  .register-form {
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: global.$spacing-md;
+
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: global.$spacing-lg;
+
+      label {
+        display: block;
+        margin-bottom: global.$spacing-xs;
+        color: global.$dark-gray;
+        font-weight: 500;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: global.$spacing-md;
+        border: 1px solid global.$light-gray;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: global.$primary-color;
+        }
+
+        &.invalid {
+          border-color: #e74c3c;
+        }
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 0.8rem;
+        margin-top: global.$spacing-xs;
+      }
+
+      &.terms-group {
+        display: flex;
+        align-items: center;
+        margin-top: global.$spacing-xl;
+
+        input {
+          margin-right: global.$spacing-sm;
+        }
+
+        label {
+          margin-bottom: 0;
+          font-size: 0.9rem;
+
+          a {
+            color: global.$primary-color;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .register-error {
+      color: #e74c3c;
+      background-color: #fadbd8;
+      padding: global.$spacing-md;
+      border-radius: 4px;
+      margin-bottom: global.$spacing-lg;
+      text-align: center;
+    }
+
+    .register-success {
+      color: global.$secondary-color;
+      background-color: #d4edda;
+      padding: global.$spacing-md;
+      border-radius: 4px;
+      margin-bottom: global.$spacing-lg;
+      text-align: center;
+    }
+
+    .register-button {
+      @include global.button-primary;
+      width: 100%;
+      padding: global.$spacing-md;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: global.$spacing-md;
+
+      &:disabled {
+        background-color: global.$medium-gray;
+        cursor: not-allowed;
+      }
+    }
+
+    .register-footer {
+      margin-top: global.$spacing-xl;
+      text-align: center;
+      font-size: 0.9rem;
+      color: global.$medium-gray;
+
+      a {
+        color: global.$primary-color;
+        text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+          color: darken(global.$primary-color, 10%);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
