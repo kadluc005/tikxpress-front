@@ -1,32 +1,71 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker'; 
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+
+interface TicketType {
+  type: string;
+  price: number;
+  quantity: number;
+  benefits: string[];
+  saleStart?: string;
+  saleEnd?: string;
+}
 
 @Component({
   selector: 'app-create-event',
-  imports: [CommonModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule, 
+    MatIconModule,
+    MatButtonModule,
+    MatCheckboxModule
+    
+  ],
   templateUrl: './create-event.component.html',
-  styleUrl: './create-event.component.scss'
+  styleUrls: ['./create-event.component.scss']
 })
 export class CreateEventComponent {
-
-
-
   eventForm: FormGroup;
   isSubmitting = false;
   minDate = new Date();
+  completedSteps = [false, false, false, false, false];
 
-  // Options pour les selects
   categories = ['Concert', 'Théâtre', 'Sport', 'Conférence', 'Festival', 'Exposition'];
   ticketTypes = ['Standard', 'VIP', 'Étudiant', 'Early Bird', 'Premium'];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    // private snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.eventForm = this.fb.group({
       basicInfo: this.fb.group({
@@ -40,7 +79,7 @@ export class CreateEventComponent {
         endDate: ['', Validators.required],
         startTime: ['', Validators.required],
         endTime: ['', Validators.required]
-      }),
+      }, { validators: this.dateValidator }),
       locationInfo: this.fb.group({
         venue: ['', Validators.required],
         address: ['', Validators.required],
@@ -49,35 +88,77 @@ export class CreateEventComponent {
       }),
       mediaInfo: this.fb.group({
         mainImage: ['', Validators.required],
-        galleryImages: [[]]
+        galleryImages: this.fb.array([])
       }),
-      ticketsInfo: this.fb.array([
-        this.createTicketFormGroup()
-      ])
+      ticketsInfo: this.fb.array([this.createTicketFormGroup()])
     });
   }
 
-  createTicketFormGroup() {
+  private dateValidator(group: FormGroup) {
+    const { startDate, endDate } = group.value;
+    return (startDate && endDate && new Date(startDate) > new Date(endDate)) ? { dateRange: true } : null;
+  }
+
+  createTicketFormGroup(ticket?: TicketType): FormGroup {
     return this.fb.group({
-      type: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      benefits: [[]],
-      saleStart: [''],
-      saleEnd: ['']
+      type: [ticket?.type || '', Validators.required],
+      price: [ticket?.price ?? '', [Validators.required, Validators.min(0)]],
+      quantity: [ticket?.quantity ?? '', [Validators.required, Validators.min(1)]],
+      benefits: [ticket?.benefits || []],
+      saleStart: [ticket?.saleStart || ''],
+      saleEnd: [ticket?.saleEnd || '']
     });
   }
 
   addTicketType() {
-    const ticketsArray = this.eventForm.get('ticketsInfo') as any;
-    ticketsArray.push(this.createTicketFormGroup());
+    this.ticketsInfo.push(this.createTicketFormGroup());
   }
 
   removeTicketType(index: number) {
-    const ticketsArray = this.eventForm.get('ticketsInfo') as any;
-    if (ticketsArray.length > 1) {
-      ticketsArray.removeAt(index);
+    if (this.ticketsInfo.length > 1) this.ticketsInfo.removeAt(index);
+  }
+
+  addBenefit(ticketIndex: number, input: HTMLInputElement) {
+    const benefit = input.value.trim();
+    if (benefit) {
+      const ticket = this.ticketsInfo.at(ticketIndex) as FormGroup;
+      const benefits = ticket.get('benefits')?.value || [];
+      ticket.get('benefits')?.setValue([...benefits, benefit]);
+      input.value = '';
     }
+  }
+
+  removeBenefit(ticketIndex: number, benefitIndex: number) {
+    const ticket = this.ticketsInfo.at(ticketIndex) as FormGroup;
+    const benefits = ticket.get('benefits')?.value || [];
+    benefits.splice(benefitIndex, 1);
+    ticket.get('benefits')?.setValue(benefits);
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      const reader = new FileReader();
+      reader.onload = () => this.mediaInfo.get('mainImage')?.setValue(reader.result as string);
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  onGalleryFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const galleryImages = this.mediaInfo.get('galleryImages') as FormArray;
+
+    if (input.files?.length) {
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = () => galleryImages.push(this.fb.control(reader.result as string));
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  removeGalleryImage(index: number) {
+    (this.mediaInfo.get('galleryImages') as FormArray).removeAt(index);
   }
 
   onSubmit() {
@@ -87,81 +168,31 @@ export class CreateEventComponent {
     }
 
     this.isSubmitting = true;
-    
-    // Simulation d'envoi au backend
+    console.log('Event data:', this.eventForm.value);
+
     setTimeout(() => {
-      console.log('Événement créé:', this.eventForm.value);
       this.isSubmitting = false;
-      
-      // this.snackBar.open('Événement créé avec succès!', 'Fermer', {
-      //   duration: 3000,
-      //   panelClass: ['success-snackbar']
-      // });
-      
+      this.snackBar.open('Événement créé avec succès!', 'Fermer', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
       this.router.navigate(['/admin/events/list']);
     }, 1500);
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
+  private markFormGroupTouched(group: FormGroup | FormArray) {
+    Object.values(group.controls).forEach(control => {
       control.markAsTouched();
-      
-      if (control instanceof FormGroup) {
+      if (control instanceof FormGroup || control instanceof FormArray) {
         this.markFormGroupTouched(control);
       }
     });
   }
 
-  stepCompleted(stepIndex: number): boolean {
-    switch(stepIndex) {
-      case 0: return this.basicInfo.valid;
-      case 1: return this.dateInfo.valid;
-      case 2: return this.locationInfo.valid;
-      case 3: return this.mediaInfo.valid;
-      case 4: return this.ticketsInfo.valid;
-      default: return false;
-    }
-  }
-
-  goForward(stepper: MatStepper) {
-    this.completedSteps[stepper.selectedIndex] = this.stepCompleted(stepper.selectedIndex);
-    if (this.completedSteps[stepper.selectedIndex]) {
-      stepper.next();
-    } else {
-      this.markCurrentStepAsTouched(stepper);
-    }
-  }
-
-  markCurrentStepAsTouched(stepper: MatStepper) {
-    switch(stepper.selectedIndex) {
-      case 0: this.markFormGroupTouched(this.basicInfo); break;
-      case 1: this.markFormGroupTouched(this.dateInfo); break;
-      case 2: this.markFormGroupTouched(this.locationInfo); break;
-      case 3: this.markFormGroupTouched(this.mediaInfo); break;
-      case 4: this.markFormGroupTouched(this.ticketsInfo); break;
-    }
-  }
-
-  onFileSelected($event: Event) {
-    throw new Error('Method not implemented.');
-  }
-  removeBenefit(_t196: number,_t268: number) {
-    throw new Error('Method not implemented.');
-  }
-  addBenefit(_t196: number,_t262: HTMLInputElement) {
-    throw new Error('Method not implemented.');
-  }
-  removeGalleryImage(_t184: number) {
-    throw new Error('Method not implemented.');
-  }
-  onGalleryFilesSelected($event: Event) {
-    throw new Error('Method not implemented.');
-  }
-
-  // Helper pour accéder aux sous-formulaires
+  // Getters
   get basicInfo() { return this.eventForm.get('basicInfo') as FormGroup; }
   get dateInfo() { return this.eventForm.get('dateInfo') as FormGroup; }
   get locationInfo() { return this.eventForm.get('locationInfo') as FormGroup; }
   get mediaInfo() { return this.eventForm.get('mediaInfo') as FormGroup; }
-  get ticketsInfo() { return this.eventForm.get('ticketsInfo') as any; }
+  get ticketsInfo() { return this.eventForm.get('ticketsInfo') as FormArray; }
 }
