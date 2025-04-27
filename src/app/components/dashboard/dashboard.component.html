@@ -1,1 +1,24 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <h1 class="dashboard-title">Dashboard</h1>
+  
+    <div class="cards-container">
+      <mat-card 
+        *ngFor="let stat of stats" 
+        class="stat-card" 
+        [ngClass]="stat.color"
+        (click)="navigateTo(stat.route)">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon class="stat-icon" inline>{{stat.icon}}</mat-icon>
+            <h3>{{stat.title}}</h3>
+            <p class="stat-value">{{stat.value}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="help-section">
+      <mat-icon>help_outline</mat-icon>
+      <p>Ce signe au bas de chaque page vous donne de l'aide en cas de besoin.</p>
+    </div>
+  </div>

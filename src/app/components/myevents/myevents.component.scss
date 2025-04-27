@@ -1,0 +1,125 @@
+@use '../../../styles.scss' as global;
+@import '../../../styles.scss';
+
+.events-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    color: global.$primary-color;
+    margin: 0;
+  }
+
+  button {
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem 0;
+    margin-bottom: 1rem;
+
+    .date {
+      color: global.$medium-gray;
+      font-size: 0.9rem;
+    }
+  }
+
+  mat-card-content {
+    h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      color: global.$dark-gray;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      color: global.$medium-gray;
+      margin: 0 0 1.5rem;
+
+      mat-icon {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+        color: global.$primary-color;
+      }
+    }
+
+    .tickets-progress {
+      margin-top: 1.5rem;
+
+      .progress-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: global.$medium-gray;
+      }
+
+      mat-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+
+    button {
+      mat-icon {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}

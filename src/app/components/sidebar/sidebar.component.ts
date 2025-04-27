@@ -29,7 +29,7 @@ export class SidebarComponent {
     {
       title: 'Événements',
       icon: '🎭',
-      path: '/admin/events',
+      path: '/admin/my-events',
       subItems: [
         { title: 'Tous les événements', icon: '📋', path: '/admin/events/list' },
         { title: 'Créer un événement', icon: '➕', path: '/admin/events/create' },

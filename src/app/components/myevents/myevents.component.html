@@ -1,0 +1,47 @@
+<div class="events-container">
+    <div class="header">
+      <h1>Mes événements</h1>
+      <button mat-raised-button color="primary" (click)="createNewEvent()">
+        <mat-icon>add</mat-icon>
+        Créer un événement
+      </button>
+    </div>
+  
+    <div class="events-grid">
+      <mat-card *ngFor="let event of events" class="event-card" (click)="viewEventDetails(event.id)">
+        <div class="card-header">
+          <mat-chip [color]="getStatusColor(event.status)" selected>
+            {{event.status | uppercase}}
+          </mat-chip>
+          <span class="date">{{event.date}}</span>
+        </div>
+  
+        <mat-card-content>
+          <h2>{{event.title}}</h2>
+          <p class="location">
+            <mat-icon>location_on</mat-icon>
+            {{event.location}}
+          </p>
+  
+          <div class="tickets-progress">
+            <div class="progress-info">
+              <span>{{event.ticketsSold}} / {{event.totalCapacity}} billets</span>
+              <span>{{getProgressValue(event) | number:'1.0-0'}}%</span>
+            </div>
+            <mat-progress-bar 
+              mode="determinate" 
+              [value]="getProgressValue(event)"
+              [color]="getStatusColor(event.status)">
+            </mat-progress-bar>
+          </div>
+        </mat-card-content>
+  
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="viewEventDetails(event.id); $event.stopPropagation()">
+            <mat-icon>visibility</mat-icon>
+            Voir détails
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
