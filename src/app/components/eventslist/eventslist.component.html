@@ -32,15 +32,16 @@
         *ngFor="let event of filteredEvents"
         class="event-card"
         (click)="navigateToEvent(event.id)">
-        <div class="event-image" [style.backgroundImage]="'url(' + event.image + ')'">
-          <span class="event-price">{{event.price}}€</span>
-          <span class="event-category">{{event.category}}</span>
+        <div class="event-image" [style.backgroundImage]="'url(' + event.image_url + ')'">
+          <!-- <span class="event-price">{{event.price}}€</span> -->
+          <span class="event-price">555€</span>
+          <span class="event-category">{{event.type}}</span>
         </div>
         <div class="event-details">
-          <h3>{{event.title}}</h3>
+          <h3>{{event.nom}}</h3>
           <div class="event-meta">
-            <span class="date">{{event.date}}</span>
-            <span class="location">{{event.location}}</span>
+            <span class="date">{{event.date_debut}}</span>
+            <span class="location">{{event.lieu}}</span>
           </div>
           <p class="event-description">{{event.description}}</p>
           <button class="details-btn">Voir détails</button>

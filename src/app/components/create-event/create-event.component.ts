@@ -19,6 +19,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EventsService } from '../../services/events.service';
+import { BilletsService } from '../../services/billets.service';
 
 
 interface TicketType {
@@ -48,7 +50,6 @@ interface TicketType {
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule
-    
   ],
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss']
@@ -65,18 +66,20 @@ export class CreateEventComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private eventService: EventsService,
+    private billetService: BilletsService,
   ) {
     this.eventForm = this.fb.group({
       basicInfo: this.fb.group({
-        title: ['', [Validators.required, Validators.maxLength(100)]],
-        category: ['', Validators.required],
+        nom: ['', [Validators.required, Validators.maxLength(100)]],
+        type: ['', Validators.required],
         description: ['', [Validators.required, Validators.maxLength(1000)]],
         featured: [false]
       }),
       dateInfo: this.fb.group({
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required],
+        date_debut: ['', Validators.required],
+        date_fin: ['', Validators.required],
         startTime: ['', Validators.required],
         endTime: ['', Validators.required]
       }, { validators: this.dateValidator }),
@@ -84,7 +87,8 @@ export class CreateEventComponent {
         venue: ['', Validators.required],
         address: ['', Validators.required],
         city: ['', Validators.required],
-        postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
+        postalCode: ['', [Validators.required]]
+        // postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
       }),
       mediaInfo: this.fb.group({
         mainImage: ['', Validators.required],
@@ -93,6 +97,8 @@ export class CreateEventComponent {
       ticketsInfo: this.fb.array([this.createTicketFormGroup()])
     });
   }
+
+  
 
   private dateValidator(group: FormGroup) {
     const { startDate, endDate } = group.value;

@@ -18,7 +18,7 @@ export interface Event {
 
     image_url: string;
 
-    organisateur: Auth;
+    // organisateur: Auth;
 
     is_active: boolean;
 
