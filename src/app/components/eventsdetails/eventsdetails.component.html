@@ -2,45 +2,50 @@
 
 <div class="event-detail-container">
   <div class="event-header">
-    <div class="event-image" [style.backgroundImage]="'url(' + event.image + ')'">
-      <div class="event-badge">{{event.category}}</div>
+    <div
+      class="event-image"
+      [style.backgroundImage]="'url(' + event.image_url + ')'"
+    >
+      <div class="event-badge">{{ event.type }}</div>
       <div class="event-rating">
         <span class="stars">★★★★★</span>
-        <span>{{event.rating}}/5</span>
+        <!-- <span>{{event.rating}}/5</span> -->
       </div>
     </div>
     <div class="event-header-content">
-      <h1>{{event.title}}</h1>
+      <h1>{{ event.nom }}</h1>
       <div class="event-meta">
         <div class="meta-item">
           <i class="icon">📅</i>
           <div>
             <p class="meta-label">Date</p>
-            <p class="meta-value">{{event.date}} à {{event.time}}</p>
+            <p class="meta-value">
+              {{ event.date_debut | date : "d MMMM y à HH:mm" }}
+            </p>
           </div>
         </div>
         <div class="meta-item">
           <i class="icon">📍</i>
           <div>
             <p class="meta-label">Lieu</p>
-            <p class="meta-value">{{event.location}}</p>
-            <p class="meta-address">{{event.address}}</p>
+            <p class="meta-value">{{ event.lieu }}</p>
+            <p class="meta-address">{{ event.lieu }}</p>
           </div>
         </div>
         <div class="meta-item">
           <i class="icon">⏱️</i>
           <div>
             <p class="meta-label">Durée</p>
-            <p class="meta-value">{{event.duration}}</p>
+            <p class="meta-value">{{ getEventDuration(event) }}</p>
           </div>
         </div>
-        <div class="meta-item">
+        <!-- <div class="meta-item">
           <i class="icon">🏢</i>
           <div>
             <p class="meta-label">Organisateur</p>
-            <p class="meta-value">{{event.organizer}}</p>
+            <p class="meta-value">{{ event.nom }}</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -48,21 +53,23 @@
   <div class="event-body">
     <div class="event-description">
       <h2>Description</h2>
-      <p>{{event.description}}</p>
+      <p>{{ event.description }}</p>
     </div>
 
     <div class="ticket-selection">
       <h2>Billetterie</h2>
       <div class="ticket-types">
-        <div *ngFor="let ticket of event.tickets" 
-             class="ticket-card"
-             [class.selected]="selectedTicketType === ticket.category"
-             (click)="selectTicketType(ticket.category)">
-          <h3>{{ticket.category}}</h3>
-          <p class="ticket-price">{{ticket.price}}€</p>
-          <p class="ticket-available">{{ticket.available}} places restantes</p>
+        <div
+          *ngFor="let ticket of billets"
+          class="ticket-card"
+          [class.selected]="selectedTicketType === ticket.libelle"
+          (click)="selectTicketType(ticket.libelle)"
+        >
+          <h3>{{ ticket.libelle }}</h3>
+          <p class="ticket-price">{{ ticket.prix }}F CFA</p>
+          <p class="ticket-available">{{ ticket.quantite }} places restantes</p>
           <ul class="ticket-benefits">
-            <li *ngFor="let benefit of ticket.benefits">✓ {{benefit}}</li>
+            <li *ngFor="let benefit of ticket.privileges">✓ {{ benefit }}</li>
           </ul>
         </div>
       </div>
@@ -71,20 +78,22 @@
         <h3>Votre sélection</h3>
         <div class="selection-details">
           <div class="selected-ticket">
-            <span>{{selectedTicketType}}</span>
-            <span>{{selectedTicket?.price}}€ x {{ticketQuantity}}</span>
+            <span>{{ selectedTicketType }}</span>
+            <span>{{ selectedTicket?.prix }}F CFA x {{ ticketQuantity }}</span>
           </div>
           <div class="quantity-selector">
             <button (click)="decrementQuantity()">-</button>
-            <span>{{ticketQuantity}}</span>
+            <span>{{ ticketQuantity }}</span>
             <button (click)="incrementQuantity()">+</button>
           </div>
         </div>
         <div class="total-price">
           <span>Total</span>
-          <span>{{totalPrice}}€</span>
+          <span>{{ totalPrice }}F CFA</span>
         </div>
-        <button class="book-button" (click)="bookTickets()">Réserver maintenant</button>
+        <button class="book-button" (click)="bookTickets()">
+          Réserver maintenant
+        </button>
       </div>
     </div>
   </div>
@@ -92,12 +101,11 @@
   <div class="event-map">
     <h2>Localisation</h2>
     <div class="map-placeholder">
-      <p>🎯 {{event.location}}</p>
-      <p>{{event.address}}</p>
+      <p>🎯 {{ event.lieu }}</p>
+      <p>{{ event.lieu }}</p>
       <button class="map-button">Voir sur la carte</button>
     </div>
   </div>
 </div>
-
 
 <app-footer></app-footer>

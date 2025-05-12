@@ -28,4 +28,8 @@ export class BilletsService {
   getBilletById(id: number): Observable<TypeBillets> {
     return this.httpClient.get<TypeBillets>(this.baseUrl + id);
   }
+
+  findEventBillet(id: number): Observable<TypeBillets[]>{
+    return this.httpClient.get<TypeBillets[]>(this.baseUrl + 'event/' + id);
+  }
 }

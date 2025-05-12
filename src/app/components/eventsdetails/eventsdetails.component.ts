@@ -3,8 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
+import { EventsService } from '../../services/events.service';
+import { BilletsService } from '../../services/billets.service';
+import { Event } from '../../models/event';
+import { TypeBillets } from '../../models/type-billets';
 
-interface Event {
+interface Eventa {
   id: number;
   title: string;
   date: string;
@@ -32,8 +36,11 @@ interface Event {
   templateUrl: './eventsdetails.component.html',
   styleUrl: './eventsdetails.component.scss',
 })
-export class EventsdetailsComponent {
-  event: Event = {
+export class EventsdetailsComponent implements OnInit {
+  event: Event = null ! ;
+  eventId!: number;
+  billets: TypeBillets[] = []
+  event1: Eventa = {
     id: 1,
     title: 'Concert Symphonique',
     date: '15 Décembre 2023',
@@ -86,11 +93,40 @@ export class EventsdetailsComponent {
     ],
   };
 
+
   selectedTicketType: string | null = null;
   ticketQuantity: number = 1;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private eventsService: EventsService, 
+    private billetsService: BilletsService
+  ) {}
 
+  ngOnInit(): void {
+      this.route.paramMap.subscribe((param) => {
+        const id = Number(param.get('id'));
+        if(id){
+          this.eventId = id;
+          this.getEventById(id);
+          this.getEventBillet(id);
+        }
+      })
+  }
+
+  getEventById(id: number): void {
+    this.eventsService.getEventById(id).subscribe((event) => {
+      this.event = event;
+    })
+  }
+
+  getEventBillet(id: number): void {
+    // id = this.event.id;
+    // console.log(id);
+    this.billetsService.findEventBillet(id).subscribe((billets) => {
+      this.billets = billets;
+    })
+  }
   selectTicketType(type: string): void {
     this.selectedTicketType = type;
     this.ticketQuantity = 1;
@@ -107,14 +143,14 @@ export class EventsdetailsComponent {
   }
 
   get selectedTicket() {
-    return this.event.tickets.find(
-      (t) => t.category === this.selectedTicketType
+    return this.billets.find(
+      (t) => t.libelle === this.selectedTicketType
     );
   }
 
   get totalPrice() {
     if (!this.selectedTicket) return 0;
-    return this.selectedTicket.price * this.ticketQuantity;
+    return this.selectedTicket.prix * this.ticketQuantity;
   }
 
   bookTickets(): void {
@@ -123,4 +159,20 @@ export class EventsdetailsComponent {
     );
     // Normalement, ici on redirigerait vers un processus de paiement
   }
+
+  getEventDuration(event: any): string {
+  const debut = new Date(event.date_debut);
+  const fin = new Date(event.date_fin);
+  const diffMs = fin.getTime() - debut.getTime();
+
+  const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffMin = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (diffH === 0) {
+    return `${diffMin} min`;
+  } else {
+    return `${diffH}h ${diffMin}min`;
+  }
+}
+
 }
