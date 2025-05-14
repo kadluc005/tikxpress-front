@@ -55,7 +55,7 @@
           [matDatepicker]="startPicker"
           formControlName="date_debut"
         /> -->
-        <input matInput type="datetime-local" formControlName="date_debut" />
+        <input matInput type="date" formControlName="date_debut" />
         <!-- <mat-datepicker-toggle
           matSuffix
           [for]="startPicker"
@@ -63,10 +63,10 @@
         <mat-datepicker #startPicker></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <mat-label>Heure de début</mat-label>
         <input matInput type="time" formControlName="startTime" />
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field appearance="fill">
         <mat-label>Date de fin</mat-label>
@@ -77,14 +77,14 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #endPicker></mat-datepicker> -->
 
-        <input matInput type="datetime-local" formControlName="date_fin" />
+        <input matInput type="date" formControlName="date_fin" />
 
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <mat-label>Heure de fin</mat-label>
         <input matInput type="time" formControlName="endTime" />
-      </mat-form-field>
+      </mat-form-field> -->
 
       <div class="mt-4">
         <button mat-button matStepperPrevious>Retour</button>
@@ -223,15 +223,15 @@
           </ul>
         </div>
 
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
           <mat-label>Début de vente</mat-label>
           <input matInput type="datetime-local" formControlName="saleStart" />
-        </mat-form-field>
+        </mat-form-field> -->
 
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
           <mat-label>Fin de vente</mat-label>
           <input matInput type="datetime-local" formControlName="saleEnd" />
-        </mat-form-field>
+        </mat-form-field> -->
 
         <button mat-button color="warn" (click)="removeTicketType(i)">
           Supprimer

@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   login(user: User){
-    return this.http.post(this.basUrl+ 'login', user);
+    return this.http.post<{ access_token: string }>(this.basUrl+ 'login', user);
   }
 
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { CreateTypeBilletDto, TypeBillets, UpdateTypeBilletDto } from '../models/type-billets';
@@ -13,9 +13,15 @@ export class BilletsService {
 
   private baseUrl = environment.BASE_API_URL + 'type-billet/';
   private baseUrlEvent = environment.BASE_API_URL + 'events/'; // URL de base pour les événements
+  private getAuthHeaders(token: string): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
 
-  createBillet(createTypeBilletDto: CreateTypeBilletDto): Observable<TypeBillets>{
-    return this.httpClient.post<TypeBillets>(this.baseUrl, createTypeBilletDto);
+  createBillet(jwtToken: string, createTypeBilletDto: CreateTypeBilletDto): Observable<TypeBillets>{
+    const headers = this.getAuthHeaders(jwtToken);
+    return this.httpClient.post<TypeBillets>(this.baseUrl, createTypeBilletDto, { headers: headers });
   }
 
   updateBillet(id: number, updateTypeBilletDto: UpdateTypeBilletDto): Observable<TypeBillets> {
