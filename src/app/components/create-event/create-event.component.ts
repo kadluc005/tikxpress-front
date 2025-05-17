@@ -90,7 +90,7 @@ export class CreateEventComponent {
         venue: ['', Validators.required],
         address: ['', Validators.required],
         city: ['', Validators.required],
-        postalCode: ['', [Validators.required]]
+        // postalCode: ['', [Validators.required]]
         // postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
       }),
       mediaInfo: this.fb.group({

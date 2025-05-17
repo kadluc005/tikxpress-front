@@ -42,4 +42,9 @@ export class EventsService {
   getEventById(eventId: number): Observable<Event> {
     return this.http.get<Event>(this.baseUrl + eventId);
   }
+
+  getOrganizerEvents(jwtToken: string): Observable<Event[]> {
+    const headers = this.getAuthHeaders(jwtToken);
+    return this.http.get<Event[]>(this.baseUrl + 'my-events', { headers });
+  }
 }

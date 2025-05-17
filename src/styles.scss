@@ -1,4 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+/* Chargement des icônes Material */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
 /* Variables de couleur */
 // $black: #000000;
 // $white: #FFFFFF;
@@ -7,7 +23,7 @@
 // $light-gray: #EAEAEA;
 
 /* Variables de couleur - Palette professionnelle */
-$primary-color: #003366;       // Bleu foncé professionnel
+$primary-color: #003366;      
 $secondary-color: #228B22;     // Vert forêt
 $accent-color: #40E0D0;        // Turquoise
 $secondary-accent: #FFDB58;    // Jaune moutarde
@@ -82,3 +98,6 @@ $spacing-xs: $spacing-unit * 0.25;
     }
 }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

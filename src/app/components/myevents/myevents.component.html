@@ -10,28 +10,28 @@
     <div class="events-grid">
       <mat-card *ngFor="let event of events" class="event-card" (click)="viewEventDetails(event.id)">
         <div class="card-header">
-          <mat-chip [color]="getStatusColor(event.status)" selected>
-            {{event.status | uppercase}}
+          <mat-chip [color]="getStatusColor(event.type)" selected>
+            {{event.type | uppercase}}
           </mat-chip>
-          <span class="date">{{event.date}}</span>
+          <span class="date">{{event.date_debut}}</span>
         </div>
   
         <mat-card-content>
-          <h2>{{event.title}}</h2>
+          <h2>{{event.nom}}</h2>
           <p class="location">
             <mat-icon>location_on</mat-icon>
-            {{event.location}}
+            {{event.lieu}}
           </p>
   
           <div class="tickets-progress">
             <div class="progress-info">
-              <span>{{event.ticketsSold}} / {{event.totalCapacity}} billets</span>
+              <span>{{event.id}} / {{event.id}} billets</span>
               <span>{{getProgressValue(event) | number:'1.0-0'}}%</span>
             </div>
             <mat-progress-bar 
               mode="determinate" 
               [value]="getProgressValue(event)"
-              [color]="getStatusColor(event.status)">
+              [color]="getStatusColor(event.type)">
             </mat-progress-bar>
           </div>
         </mat-card-content>
