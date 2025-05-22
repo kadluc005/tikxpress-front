@@ -1,0 +1,122 @@
+@use "../../../styles.scss" as global;
+@import "../../../styles.scss";
+
+
+.role-selection-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 3rem;
+
+  h1 {
+    color: global.$primary-color;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: global.$medium-gray;
+    font-size: 1.1rem;
+  }
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.role-card {
+  padding: 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  &.client {
+    border-top: 4px solid global.$primary-color;
+  }
+
+  &.organizer {
+    border-top: 4px solid global.$secondary-color;
+  }
+
+  .icon-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: 40px;
+      width: auto;
+      height: auto;
+    }
+  }
+
+  &.client .icon-container {
+    background-color: rgba(global.$primary-color, 0.1);
+    color: global.$primary-color;
+  }
+
+  &.organizer .icon-container {
+    background-color: rgba(global.$secondary-color, 0.1);
+    color: global.$secondary-color;
+  }
+
+  h2 {
+    color: global.$dark-gray;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: global.$medium-gray;
+    margin-bottom: 2rem;
+    min-height: 60px;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+.footer-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: global.$medium-gray;
+  font-size: 0.9rem;
+
+  mat-icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .role-selection-container {
+    padding: 1rem;
+  }
+
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+}

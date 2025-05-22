@@ -8,6 +8,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyeventsComponent } from './components/myevents/myevents.component';
+import { RoleSelectionComponent } from './components/role-selection/role-selection.component';
 
 export const routes: Routes = [
     {path: '', component: WelcomeComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: 'event/:id', component: EventsdetailsComponent},
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
+    {path: 'role-selection', component: RoleSelectionComponent},
 
     {
         path: 'admin',

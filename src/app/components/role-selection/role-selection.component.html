@@ -1,0 +1,31 @@
+<div class="role-selection-container">
+  <div class="header">
+    <h1>Bienvenue !</h1>
+    <p>Comment souhaitez-vous utiliser notre plateforme ?</p>
+  </div>
+
+  <div class="roles-grid">
+    <div class="role-card client" (click)="selectRole('client')">
+      <div class="icon-container">
+        <mat-icon>person</mat-icon>
+      </div>
+      <h2>Je suis un Client</h2>
+      <p>Je veux découvrir et réserver des événements</p>
+      <button mat-raised-button color="primary">Choisir ce rôle</button>
+    </div>
+
+    <div class="role-card organizer" (click)="selectRole('organisateur')">
+      <div class="icon-container">
+        <mat-icon>event</mat-icon>
+      </div>
+      <h2>Je suis un Organisateur</h2>
+      <p>Je veux créer et gérer mes événements</p>
+      <button mat-raised-button color="accent">Choisir ce rôle</button>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <mat-icon>info</mat-icon>
+    <p>Vous pourrez changer ce choix ultérieurement dans vos paramètres.</p>
+  </div>
+</div>
