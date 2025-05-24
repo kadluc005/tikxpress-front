@@ -1,36 +1,42 @@
 export interface User {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
-export interface RegisterDto{
-    email: string;
-    nom: string;
-    prenom: string;
-    tel: string;
-    password: string;
+export interface LoginResponse {
+  access_token: string;
+  user: Auth;
+}
+
+export interface RegisterDto {
+  email: string;
+  nom: string;
+  prenom: string;
+  nomEntreprise?: string;
+  tel: string;
+  password: string;
 }
 
 export interface Auth {
-    id: number;
+  id: number;
 
-    email: string;
+  email: string;
 
-    nom: string;
+  nom: string;
 
-    prenom: string;
+  prenom: string;
 
-    tel: string;
+  tel: string;
 
-    password: string;
+  password: string;
 
-    type: string;
+  type: string;
 
-    is_active: boolean;
+  is_active: boolean;
 
-    is_visible: boolean;
+  is_visible: boolean;
 
-    created_at: Date;
+  created_at: Date;
 
-    updated_at: Date;
+  updated_at: Date;
 }

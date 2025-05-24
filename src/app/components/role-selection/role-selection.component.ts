@@ -19,9 +19,9 @@ export class RoleSelectionComponent {
     
     // Rediriger vers la page appropriée
     if (role === 'client') {
-      this.router.navigate(['/events']);
+      this.router.navigate(['/register']);
     } else {
-      this.router.navigate(['/admin/dashboard']);
+      this.router.navigate(['/register']);
     }
   }
 

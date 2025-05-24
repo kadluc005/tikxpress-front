@@ -8,7 +8,7 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
         <div class="form-row">
           <div class="form-group">
-            <label for="firstName">Prénom</label>
+            <label for="firstName">Prénom(s)</label>
             <input 
               type="text" 
               id="firstName" 
@@ -33,6 +33,19 @@
             </div>
           </div>
         </div>
+        
+        <div class="form-group" *ngIf="userRole === 'organisateur'">
+          <label for="companyName">Nom de l'entreprise</label>
+          <input 
+              type="text" 
+              id="companyName" 
+              formControlName="companyName" 
+              placeholder="Votre entreprise"
+              [class.invalid]="companyName?.invalid && (companyName?.dirty || companyName?.touched)">
+            <div *ngIf="companyName?.invalid && (companyName?.dirty || companyName?.touched)" class="error-message">
+              <span *ngIf="companyName?.errors?.['required']">Ce champ est requis</span>
+            </div>
+        </div>
   
         <div class="form-group">
           <label for="email">Email</label>
@@ -47,6 +60,21 @@
             <span *ngIf="email?.errors?.['email']">Veuillez entrer un email valide</span>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="phoneNumber">Téléphone</label>
+          <input 
+            type="tel" 
+            id="phoneNumber" 
+            formControlName="phoneNumber" 
+            placeholder="0612345678"
+            [class.invalid]="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)">
+          <div *ngIf="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)" class="error-message">
+            <span *ngIf="phoneNumber?.errors?.['required']">Ce champ est requis</span>
+            <span *ngIf="phoneNumber?.errors?.['pattern']">Numéro invalide (10 chiffres requis)</span>
+          </div>
+        </div>
+        
   
         <div class="form-row">
           <div class="form-group">
@@ -64,7 +92,7 @@
           </div>
   
           <div class="form-group">
-            <label for="confirmPassword">Confirmation</label>
+            <label for="confirmPassword">Confirmer le mot de passe</label>
             <input 
               type="password" 
               id="confirmPassword" 

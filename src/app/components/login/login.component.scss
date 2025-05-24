@@ -14,7 +14,7 @@
   @include global.card-style;
   width: 100%;
   max-width: 450px;
-  padding: global.$spacing-xl;
+  padding: global.$spacing-xl 4rem global.$spacing-xl global.$spacing-xl;
   box-shadow: 0 4px 12px rgba(global.$black, 0.1);
 
   .login-header {

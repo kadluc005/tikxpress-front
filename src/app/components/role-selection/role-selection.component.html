@@ -5,7 +5,7 @@
   </div>
 
   <div class="roles-grid">
-    <div class="role-card client" (click)="selectRole('client')">
+    <div class="role-card client" routerLink="/register" (click)="selectRole('client')">
       <div class="icon-container">
         <mat-icon>person</mat-icon>
       </div>
@@ -14,7 +14,7 @@
       <button mat-raised-button color="primary">Choisir ce rôle</button>
     </div>
 
-    <div class="role-card organizer" (click)="selectRole('organisateur')">
+    <div class="role-card organizer" routerLink="/register" (click)="selectRole('organisateur')">
       <div class="icon-container">
         <mat-icon>event</mat-icon>
       </div>

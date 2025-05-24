@@ -41,13 +41,27 @@ export class LoginComponent {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value
     }
+   
 
     this.authService.login(this.user).subscribe({
       next: (response) => {
         // localStorage.setItem('isLoggedIn', 'true');
         const token = response.access_token;
         localStorage.setItem('token', token);
-        this.router.navigate(['/']);
+        const tokenPayload = this.decodeToken(token);
+        const userId = tokenPayload.sub;
+       
+        this.getUserRole(userId);
+        setTimeout(() => {
+          if(localStorage.getItem('userRole') === 'organisateur'){
+            this.router.navigate(['/admin/my-events']);
+          }else{
+            this.router.navigate(['/']);
+          }
+          this.isLoading = false;
+        }, 1500);
+        
+        
       },
       error: (error) => {
         this.errorMessage = `Email ou mot de passe incorrect ${error}}`;
@@ -57,24 +71,40 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    setTimeout(() => {
-      // const { email, password } = this.loginForm.value;
-      
-      // if (email === 'admin@example.com' && password === 'password123') {
-      //   // Connexion réussie
-      //   localStorage.setItem('isLoggedIn', 'true');
-      //   this.router.navigate(['/']);
-      // } else {
-      //   this.errorMessage = 'Email ou mot de passe incorrect';
-      // }
-      
-      this.isLoading = false;
-    }, 1500);
+    
+  }
+
+  getUserRole(userId: number){
+    return this.authService.getUserRoles(userId).subscribe({
+      next: (response) => {
+        response.forEach((role)=>{
+          if(role.nom === 'organisateur'){
+            localStorage.setItem('userRole', role.nom);
+          }else{
+            localStorage.setItem('userRole', role.nom);
+          }
+        })
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des rôles de l\'utilisateur:', error);
+      }
+    })
+
+  }
+
+  //décode le token JWT pour récupérer le payload
+  // et extraire l'ID de l'utilisateur
+  private decodeToken(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(atob(base64));
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return {};
+    }
   }
 
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
-
-  
-
 }
