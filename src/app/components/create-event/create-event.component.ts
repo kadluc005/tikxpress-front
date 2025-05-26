@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -23,16 +23,8 @@ import { EventsService } from '../../services/events.service';
 import { BilletsService } from '../../services/billets.service';
 import { CreateEventDto } from '../../models/event';
 import { CreateTypeBilletDto } from '../../models/type-billets';
+import { MapComponent } from '../map/map.component';
 
-
-interface TicketType {
-  type: string;
-  price: number;
-  quantity: number;
-  benefits: string[];
-  saleStart?: string;
-  saleEnd?: string;
-}
 
 @Component({
   selector: 'app-create-event',
@@ -51,17 +43,44 @@ interface TicketType {
     MatDatepickerModule, 
     MatIconModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MapComponent
   ],
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss']
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements AfterViewInit{
   eventForm: FormGroup;
   isSubmitting = false;
   minDate = new Date();
   completedSteps = [false, false, false, false, false];
   token : string = localStorage.getItem('token') || '';
+  selectedFile: File | null = null;
+  
+  @ViewChild(MapComponent)
+  location!: MapComponent;
+  longitude: number |null = null;
+  latitude: number | null = null;
+  onCoordinatesChange(coords: {latitude: number | null, longitude: number | null}) {
+    if (coords.latitude !== null && coords.longitude !== null) {
+      this.latitude = coords.latitude;
+      this.longitude = coords.longitude;
+      console.log('Coordonnées mises à jour depuis la recherche:', this.latitude, this.longitude);
+    } 
+   
+  }
+
+  ngAfterViewInit(): void {
+    this.latitude = this.location.getCoordinates().latitude;
+    this.longitude = this.location.getCoordinates().longitude;
+    setTimeout(()=>{
+      const coords = this.location.getCoordinates();
+      this.longitude = coords.longitude;
+      this.latitude = coords.latitude;
+      console.log('Coordonnées récupérées :', this.latitude, this.longitude);
+    },0);
+    
+  }
 
   categories = ['Concert', 'Théâtre', 'Sport', 'Conférence', 'Festival', 'Exposition'];
   ticketTypes = ['Standard', 'VIP', 'Étudiant', 'Early Bird', 'Premium'];
@@ -88,13 +107,13 @@ export class CreateEventComponent {
       }, { validators: this.dateValidator }),
       locationInfo: this.fb.group({
         venue: ['', Validators.required],
-        address: ['', Validators.required],
-        city: ['', Validators.required],
+        // address: ['',],
+        // city: ['', ],
         // postalCode: ['', [Validators.required]]
         // postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
       }),
       mediaInfo: this.fb.group({
-        mainImage: ['', Validators.required],
+        mainImage: ['',],
         galleryImages: this.fb.array([])
       }),
       ticketsInfo: this.fb.array([this.createTicketFormGroup()])
@@ -104,16 +123,16 @@ export class CreateEventComponent {
   
 
   private dateValidator(group: FormGroup) {
-    const { startDate, endDate } = group.value;
-    return (startDate && endDate && new Date(startDate) > new Date(endDate)) ? { dateRange: true } : null;
+    const start = group.get('date_debut')?.value;
+    const end = group.get('date_fin')?.value;
+    return (start && end && new Date(start) > new Date(end)) ? { dateRange: true } : null;
   }
-
-  createTicketFormGroup(ticket?: TicketType): FormGroup {
+  createTicketFormGroup(ticket?: CreateTypeBilletDto): FormGroup {
     return this.fb.group({
-      type: [ticket?.type || '', Validators.required],
-      price: [ticket?.price ?? '', [Validators.required, Validators.min(0)]],
-      quantity: [ticket?.quantity ?? '', [Validators.required, Validators.min(1)]],
-      benefits: [ticket?.benefits || []],
+      type: [ticket?.libelle || '', Validators.required],
+      price: [ticket?.prix ?? '', [Validators.required, Validators.min(0)]],
+      quantity: [ticket?.quantite ?? '', [Validators.required, Validators.min(1)]],
+      benefits: [ticket?.privileges || []],
     });
   }
 
@@ -144,11 +163,14 @@ export class CreateEventComponent {
   }
 
   onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.selectedFile = file;
       const reader = new FileReader();
-      reader.onload = () => this.mediaInfo.get('mainImage')?.setValue(reader.result as string);
-      reader.readAsDataURL(input.files[0]);
+      reader.onload = () => {
+        this.mediaInfo.get('mainImage')?.setValue(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -170,7 +192,7 @@ export class CreateEventComponent {
   }
 
   eventId: number = 0;
-  addEvent(callback?: ()=> void){
+  addEventR(callback?: ()=> void){
     const createEventDto : CreateEventDto = {
       nom: this.eventForm.get('basicInfo.nom')?.value,
       description: this.eventForm.get('basicInfo.description')?.value,
@@ -178,6 +200,8 @@ export class CreateEventComponent {
       date_debut: this.eventForm.get('dateInfo.date_debut')?.value,
       date_fin: this.eventForm.get('dateInfo.date_fin')?.value,
       lieu: this.eventForm.get('locationInfo.venue')?.value,
+      latitude: this.latitude ?? 0,
+      longitude: this.longitude ?? 0,
       image_url: this.eventForm.get('mediaInfo.mainImage')?.value,
     }
 
@@ -199,33 +223,66 @@ export class CreateEventComponent {
           console.error('Erreur lors de la création de l\'événement:', err);
         }
       })    
+   }
+   addEvent(callback?: () => void) {
+  const formData = new FormData();
+  
+  // Champ fichier (attention au nom "image")
+  if (this.selectedFile) {
+    formData.append('image', this.selectedFile); // Le nom "image" est crucial
   }
 
-  addBillet(){
-    
+  // Champs du DTO
+  formData.append('nom', this.basicInfo.get('nom')?.value);
+  formData.append('description', this.basicInfo.get('description')?.value);
+  formData.append('type', this.basicInfo.get('type')?.value);
+  formData.append('date_debut', this.dateInfo.get('date_debut')?.value);
+  formData.append('date_fin', this.dateInfo.get('date_fin')?.value);
+  formData.append('lieu', this.locationInfo.get('venue')?.value);
+  formData.append('latitude', this.latitude?.toString() || '0');
+  formData.append('longitude', this.longitude?.toString() || '0');
 
-    for (let i = 1; i < this.ticketsInfo.length; i++) {
+  // Appel API avec FormData
+  this.eventService.createEventFormData(this.token || '', formData).subscribe({
+    next: (res) => {
+      this.snackBar.open('Événement créé avec succès!', 'Fermer', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+      this.router.navigate(['/admin/events/list']);
+      this.eventId = res.id;
+      if (callback) callback();
+    },
+    error: (err) => {
+      this.snackBar.open("Erreur lors de la création de l'événement", 'Fermer', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      console.error("Erreur lors de la création de l'événement:", err);
+    },
+  });
+}
+
+
+  addBillet(){
+    for (let i = 0; i < this.ticketsInfo.length; i++) {
       const billet: CreateTypeBilletDto = {
-        libelle: this.ticketsInfo.at(0).get('type')?.value,
-        prix: this.ticketsInfo.at(0).get('price')?.value,
-        privileges: this.ticketsInfo.at(0).get('benefits')?.value,
-        quantite: this.ticketsInfo.at(0).get('quantity')?.value,
+        libelle: this.ticketsInfo.at(i).get('type')?.value,
+        prix: this.ticketsInfo.at(i).get('price')?.value,
+        privileges: this.ticketsInfo.at(i).get('benefits')?.value,
+        quantite: this.ticketsInfo.at(i).get('quantity')?.value,
         eventId: this.eventId 
       }
 
       this.billetService.createBillet(this.token || '', billet).subscribe({
         next: (res) => {
-          console.log('Billet créé avec succès:', res);
-        }, 
-        error: (err) => {
-          console.error('Erreur lors de la création du billet:', err);
-        }
+        console.log(`Billet ${i + 1} créé avec succès:`, res);
+      },
+      error: (err) => {
+        console.error(`Erreur création billet ${i + 1}:`, err);
+      }
       })
     }
-
-    
-
-
   }
 
   onSubmit() {

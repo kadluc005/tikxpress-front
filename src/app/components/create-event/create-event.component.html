@@ -105,7 +105,7 @@
         <input matInput formControlName="venue" />
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-full">
+      <!-- <mat-form-field appearance="fill" class="w-full">
         <mat-label>Adresse</mat-label>
         <input matInput formControlName="address" />
       </mat-form-field>
@@ -113,7 +113,9 @@
       <mat-form-field appearance="fill">
         <mat-label>Ville</mat-label>
         <input matInput formControlName="city" />
-      </mat-form-field>
+      </mat-form-field> -->
+      <p>Indiquez la localisation sur la map</p>
+      <app-map (coordinatesChanged)="onCoordinatesChange($event)"></app-map>
 
       <!-- <mat-form-field appearance="fill">
         <mat-label>Code Postal</mat-label>

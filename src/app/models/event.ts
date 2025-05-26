@@ -16,6 +16,10 @@ export interface Event {
 
     lieu: string;
 
+    latitude: number;
+    
+    longitude: number;
+
     image_url: string;
 
     // organisateur: Auth;
@@ -42,6 +46,10 @@ export interface CreateEventDto {
     date_fin: Date;
 
     lieu: string;
+
+    latitude: number;
+    
+    longitude: number;
 
     image_url: string;
 }

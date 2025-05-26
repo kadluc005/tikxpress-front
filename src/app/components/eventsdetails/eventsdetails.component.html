@@ -4,7 +4,7 @@
   <div class="event-header">
     <div
       class="event-image"
-      [style.backgroundImage]="'url(' + event.image_url + ')'"
+      [style.backgroundImage]="'url(' + getImageUrl(event.image_url) + ')'"
     >
       <div class="event-badge">{{ event.type }}</div>
       <div class="event-rating">
@@ -100,11 +100,17 @@
 
   <div class="event-map">
     <h2>Localisation</h2>
-    <div class="map-placeholder">
+    <!-- <div class="map-placeholder">
       <p>🎯 {{ event.lieu }}</p>
       <p>{{ event.lieu }}</p>
       <button class="map-button">Voir sur la carte</button>
-    </div>
+    </div> -->
+
+    <app-map
+      *ngIf="event"
+      [latitude]="event.latitude"
+      [longitude]="event.longitude"
+    ></app-map>
   </div>
 </div>
 

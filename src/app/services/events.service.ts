@@ -24,6 +24,15 @@ export class EventsService {
 
   }
 
+  createEventFormData(jwtToken: string, formData: FormData): Observable<Event> {
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`
+    // ❌ Pas besoin de 'Content-Type': Angular le définit automatiquement pour FormData
+  };
+
+  return this.http.post<Event>(this.baseUrl + 'create', formData, { headers });
+}
+
   updateEvent(jwtToken: string, eventId: number, event: CreateEventDto): Observable<Event>{
     const headers = this.getAuthHeaders(jwtToken);
 
