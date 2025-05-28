@@ -224,44 +224,44 @@ export class CreateEventComponent implements AfterViewInit{
         }
       })    
    }
-   addEvent(callback?: () => void) {
-  const formData = new FormData();
-  
-  // Champ fichier (attention au nom "image")
-  if (this.selectedFile) {
-    formData.append('image', this.selectedFile); // Le nom "image" est crucial
+  addEvent(callback?: () => void) {
+    const formData = new FormData();
+    
+    // Champ fichier (attention au nom "image")
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile); // Le nom "image" est crucial
+    }
+
+    // Champs du DTO
+    formData.append('nom', this.basicInfo.get('nom')?.value);
+    formData.append('description', this.basicInfo.get('description')?.value);
+    formData.append('type', this.basicInfo.get('type')?.value);
+    formData.append('date_debut', this.dateInfo.get('date_debut')?.value);
+    formData.append('date_fin', this.dateInfo.get('date_fin')?.value);
+    formData.append('lieu', this.locationInfo.get('venue')?.value);
+    formData.append('latitude', this.latitude?.toString() || '0');
+    formData.append('longitude', this.longitude?.toString() || '0');
+
+    // Appel API avec FormData
+    this.eventService.createEventFormData(this.token || '', formData).subscribe({
+      next: (res) => {
+        this.snackBar.open('Événement créé avec succès!', 'Fermer', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+        this.router.navigate(['/admin/events/list']);
+        this.eventId = res.id;
+        if (callback) callback();
+      },
+      error: (err) => {
+        this.snackBar.open("Erreur lors de la création de l'événement", 'Fermer', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        console.error("Erreur lors de la création de l'événement:", err);
+      },
+    });
   }
-
-  // Champs du DTO
-  formData.append('nom', this.basicInfo.get('nom')?.value);
-  formData.append('description', this.basicInfo.get('description')?.value);
-  formData.append('type', this.basicInfo.get('type')?.value);
-  formData.append('date_debut', this.dateInfo.get('date_debut')?.value);
-  formData.append('date_fin', this.dateInfo.get('date_fin')?.value);
-  formData.append('lieu', this.locationInfo.get('venue')?.value);
-  formData.append('latitude', this.latitude?.toString() || '0');
-  formData.append('longitude', this.longitude?.toString() || '0');
-
-  // Appel API avec FormData
-  this.eventService.createEventFormData(this.token || '', formData).subscribe({
-    next: (res) => {
-      this.snackBar.open('Événement créé avec succès!', 'Fermer', {
-        duration: 3000,
-        panelClass: ['success-snackbar'],
-      });
-      this.router.navigate(['/admin/events/list']);
-      this.eventId = res.id;
-      if (callback) callback();
-    },
-    error: (err) => {
-      this.snackBar.open("Erreur lors de la création de l'événement", 'Fermer', {
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-      console.error("Erreur lors de la création de l'événement:", err);
-    },
-  });
-}
 
 
   addBillet(){

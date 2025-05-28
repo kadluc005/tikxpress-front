@@ -29,7 +29,7 @@
           <div>
             <p class="meta-label">Lieu</p>
             <p class="meta-value">{{ event.lieu }}</p>
-            <p class="meta-address">{{ event.lieu }}</p>
+            <!-- <p class="meta-address">{{ event.lieu }}</p> -->
           </div>
         </div>
         <div class="meta-item">
@@ -62,7 +62,7 @@
         <div
           *ngFor="let ticket of billets"
           class="ticket-card"
-          [class.selected]="selectedTicketType === ticket.libelle"
+          [class.selected]="selectedTickets[ticket.libelle]"
           (click)="selectTicketType(ticket.libelle)"
         >
           <h3>{{ ticket.libelle }}</h3>
@@ -74,17 +74,17 @@
         </div>
       </div>
 
-      <div *ngIf="selectedTicketType" class="booking-section">
+      <div *ngIf="selectedTicketList.length" class="booking-section">
         <h3>Votre sélection</h3>
-        <div class="selection-details">
+        <div class="selection-details" *ngFor="let selected of selectedTicketList">
           <div class="selected-ticket">
-            <span>{{ selectedTicketType }}</span>
-            <span>{{ selectedTicket?.prix }}F CFA x {{ ticketQuantity }}</span>
+            <span>{{ selected.libelle }}</span>
+            <span>{{ selected.prixUnitaire }}F CFA x {{ selected.quantite }}</span>
           </div>
           <div class="quantity-selector">
-            <button (click)="decrementQuantity()">-</button>
-            <span>{{ ticketQuantity }}</span>
-            <button (click)="incrementQuantity()">+</button>
+            <button (click)="decrementQuantity(selected.libelle)">-</button>
+            <span>{{ selected.quantite }}</span>
+            <button (click)="incrementQuantity(selected.libelle)">+</button>
           </div>
         </div>
         <div class="total-price">
@@ -100,12 +100,6 @@
 
   <div class="event-map">
     <h2>Localisation</h2>
-    <!-- <div class="map-placeholder">
-      <p>🎯 {{ event.lieu }}</p>
-      <p>{{ event.lieu }}</p>
-      <button class="map-button">Voir sur la carte</button>
-    </div> -->
-
     <app-map
       *ngIf="event"
       [latitude]="event.latitude"
@@ -115,3 +109,10 @@
 </div>
 
 <app-footer></app-footer>
+
+<app-payment-modal
+  [visible]="paymentModalVisible"
+  [totalAmount]="totalPrice"
+  (close)="paymentModalVisible = false"
+  (paymentSelected)="onPaymentSelected($event)"
+></app-payment-modal>

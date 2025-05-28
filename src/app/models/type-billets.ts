@@ -40,3 +40,18 @@ export interface UpdateTypeBilletDto {
 
 }
 
+export interface Billet {
+    id: number;
+    code: string;
+    estUtilise: boolean;
+    type: {
+        libelle: string;
+        prix: number;
+    };
+}
+
+export interface CreateBilletDto {
+    type: number; 
+    commande: number;
+}
+

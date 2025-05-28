@@ -1,0 +1,34 @@
+<div class="modal-backdrop" *ngIf="visible">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Choisissez un moyen de paiement</h2>
+      <p class="total-amount">Total : {{ totalAmount }} F CFA</p>
+    </div>
+
+    <div class="payment-options">
+      <button class="payment-btn flooz" (click)="selectPayment('flooz')">
+        <!-- <img src="assets/flooz-logo.png" alt="Flooz"> -->
+         <mat-icon>phone</mat-icon>
+        Flooz
+      </button>
+      
+      <button class="payment-btn tmoney" (click)="selectPayment('tmoney')">
+        <!-- <img src="assets/tmoney-logo.png" alt="T-Money"> -->
+         <mat-icon>phone</mat-icon>
+        T-Money
+      </button>
+      
+      <button class="payment-btn card" (click)="selectPayment('carte')">
+        <mat-icon>credit_card</mat-icon>
+        Carte Bancaire
+      </button>
+    </div>
+
+    <div class="modal-footer">
+      <button class="close-button" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,16 +1,14 @@
 <header class="luxe-header" routerLink="/">
   <div class="logo">Tik<span class="luxe">Xpress</span></div>
-  
+
   <!-- Hamburger (visible sur mobile) -->
-  <button class="hamburger" (click)="menuOpen = !menuOpen">
-    ☰
-  </button>
+  <button class="hamburger" (click)="menuOpen = !menuOpen">☰</button>
 
   <!-- Menu de navigation -->
   <nav [class.open]="menuOpen">
     <button class="nav-btn" routerLink="/events">Événements</button>
     <button class="nav-btn" routerLink="">À propos</button>
     <button class="nav-btn">Contact</button>
-    <button class="cta-btn">Connexion</button>
+    <button class="cta-btn" routerLink="/login">Connexion</button>
   </nav>
 </header>

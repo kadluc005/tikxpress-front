@@ -8,11 +8,14 @@ import { BilletsService } from '../../services/billets.service';
 import { Event } from '../../models/event';
 import { TypeBillets } from '../../models/type-billets';
 import { MapComponent } from '../map/map.component';
+import 'boxicons'
+import { CommandesService } from '../../services/commandes.service';
+import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 
 
 @Component({
   selector: 'app-eventsdetails',
-  imports: [CommonModule, NavbarComponent, FooterComponent, MapComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent, MapComponent, PaymentModalComponent],
   templateUrl: './eventsdetails.component.html',
   styleUrl: './eventsdetails.component.scss',
 })
@@ -20,15 +23,20 @@ export class EventsdetailsComponent implements OnInit {
   event: Event = null!;
   eventId!: number;
   billets: TypeBillets[] = [];
-  map: MapComponent | null = null;
+  token : string = localStorage.getItem('token') || '';
 
-  selectedTicketType: string | null = null;
-  ticketQuantity: number = 1;
+  selectedTickets: { [libelle: string ]: number} = {};
+
+  // modal
+  paymentModalVisible = false;
+  selectedPaymentMethod: string | null = null;
+
 
   constructor(
     private route: ActivatedRoute,
     private eventsService: EventsService,
-    private billetsService: BilletsService
+    private billetsService: BilletsService,
+    private commandeService: CommandesService
   ) {}
 
   ngOnInit(): void {
@@ -60,48 +68,110 @@ export class EventsdetailsComponent implements OnInit {
     });
   }
   selectTicketType(type: string): void {
-    this.selectedTicketType = type;
-    this.ticketQuantity = 1;
-  }
+    const billet = this.billets.find(b => b.libelle === type);
+    if (!billet || billet.quantite <= 0) return;
 
-  incrementQuantity(): void {
-    this.ticketQuantity += 1;
-  }
-
-  decrementQuantity(): void {
-    if (this.ticketQuantity > 1) {
-      this.ticketQuantity -= 1;
+    if (!this.selectedTickets[type]) {
+      this.selectedTickets[type] = 1;
     }
   }
 
-  get selectedTicket() {
-    return this.billets.find((t) => t.libelle === this.selectedTicketType);
+  incrementQuantity(type: string): void {
+    const billet = this.billets.find(b => b.libelle === type);
+    if (!billet) return;
+    if (this.selectedTickets[type] < billet.quantite) {
+      this.selectedTickets[type]++;
+    }
+  }
+
+  decrementQuantity(type: string): void {
+    if (this.selectedTickets[type] > 1) {
+      this.selectedTickets[type]--;
+    } else {
+      delete this.selectedTickets[type];
+    }
+  }
+
+  getTicketQuantity(type: string): number {
+    return this.selectedTickets[type] || 0;
+  }
+
+  get selectedTicketList() {
+    return Object.entries(this.selectedTickets).map(([libelle, quantite]) => {
+      const billet = this.billets.find(b => b.libelle === libelle);
+      return {
+        libelle,
+        quantite,
+        prixUnitaire: billet?.prix,
+        total: (billet?.prix ?? 0) * quantite,
+      };
+    });
   }
 
   get totalPrice() {
-    if (!this.selectedTicket) return 0;
-    return this.selectedTicket.prix * this.ticketQuantity;
+    return this.selectedTicketList.reduce((acc, item) => acc + item.total, 0);
   }
 
   bookTickets(): void {
-    alert(
-      `Réservation confirmée pour ${this.ticketQuantity} place(s) ${this.selectedTicketType}`
-    );
-    // Normalement, ici on redirigerait vers un processus de paiement
+    this.paymentModalVisible = true;
   }
+
+  onPaymentSelected(method: string): void {
+    this.selectedPaymentMethod = method;
+    // Tu peux maintenant continuer la réservation ici selon `method`
+    this.confirmBooking(); 
+  }
+
+  confirmBooking(): void {
+      this.commandeService.createCommande(this.token, {
+        billets: [],
+        date: new Date(),
+        prix_total: this.totalPrice
+      }).subscribe({
+        next: (commande) => {
+          const billetRequests = this.selectedTicketList.map((item) => {
+            const billet = this.billets.find(b => b.libelle === item.libelle);
+            return {
+              type: billet?.id,
+              commande: commande.id,
+              prix_total: this.totalPrice
+            };
+          }).filter((dto): dto is {type: number, commande: number, prix_total: number} => dto !== null);
+
+          Promise.all(
+            billetRequests.map(dto =>
+              this.billetsService.bookBillet(this.token, dto).toPromise()
+            )
+          ).then(() => {
+            alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
+          }).catch(error => {
+            alert("Erreur lors de la réservation des billets.");
+          });
+        },
+        error: () => {
+          alert("Erreur lors de la création de la commande.");
+        }
+    });
+  }
+
+
+
 
   getEventDuration(event: any): string {
     const debut = new Date(event.date_debut);
     const fin = new Date(event.date_fin);
     const diffMs = fin.getTime() - debut.getTime();
 
-    const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffMin = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    const diffJ = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffH = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    const diffMin = Math.floor((diffMs / (1000 * 60)) % 60);
 
-    if (diffH === 0) {
-      return `${diffMin} min`;
-    } else {
-      return `${diffH}h ${diffMin}min`;
-    }
+    const parts = [];
+    if (diffJ >= 0) parts.push(`${diffJ}j`);
+    if (diffH >= 0) parts.push(`${diffH}h`);
+    if (diffMin >= 0) parts.push(`${diffMin}min`);
+
+    return parts.join(' ');
   }
+
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { CreateTypeBilletDto, TypeBillets, UpdateTypeBilletDto } from '../models/type-billets';
+import { Billet, CreateBilletDto, CreateTypeBilletDto, TypeBillets, UpdateTypeBilletDto } from '../models/type-billets';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,6 +22,12 @@ export class BilletsService {
   createBillet(jwtToken: string, createTypeBilletDto: CreateTypeBilletDto): Observable<TypeBillets>{
     const headers = this.getAuthHeaders(jwtToken);
     return this.httpClient.post<TypeBillets>(this.baseUrl, createTypeBilletDto, { headers: headers });
+  }
+
+  bookBillet(jwtToken:string, dto: CreateBilletDto): Observable<Billet>{
+    const headers = this.getAuthHeaders(jwtToken);
+    return this.httpClient.post<Billet>(this.baseUrl + 'billet', dto, { headers: headers })
+    
   }
 
   updateBillet(id: number, updateTypeBilletDto: UpdateTypeBilletDto): Observable<TypeBillets> {
