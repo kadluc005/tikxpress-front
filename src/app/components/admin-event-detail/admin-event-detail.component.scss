@@ -1,0 +1,166 @@
+.event-detail-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+
+  .event-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .event-image {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      color: #3f51b5;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .event-meta {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      color: #666;
+
+      span {
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
+
+        mat-icon {
+          font-size: 1.1rem;
+          margin-right: 0.5rem;
+          color: #3f51b5;
+        }
+      }
+
+      .event-category {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .event-details {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .detail-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      h2 {
+        display: flex;
+        align-items: center;
+        color: #3f51b5;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+
+        mat-icon {
+          margin-right: 0.5rem;
+        }
+      }
+
+      .ticket-info {
+        background: #f5f7ff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+
+        h3 {
+          margin: 0 0 0.5rem;
+          color: #2c3e50;
+        }
+
+        p {
+          margin: 0.3rem 0;
+          font-size: 0.9rem;
+          color: #555;
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+
+    button {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .btn-edit {
+      background-color: #3f51b5;
+      color: white;
+    }
+
+    .btn-delete {
+      border-color: #f44336;
+      color: #f44336;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .event-detail-container {
+    padding: 1rem;
+
+    .event-header {
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .event-meta {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+      }
+    }
+
+    .actions {
+      flex-direction: column;
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

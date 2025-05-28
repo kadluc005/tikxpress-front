@@ -1,0 +1,51 @@
+<div class="event-detail-container">
+  <!-- En-tête avec image -->
+  <div class="event-header">
+    <img [src]="getImageUrl(event.image_url)" alt="{{ event.nom }}" class="event-image">
+    <h1>{{ event.nom }}</h1>
+    <div class="event-meta">
+      <span class="event-date">
+        <mat-icon>event</mat-icon>
+        {{ event.date_debut | date:'dd/MM/yyyy' }} - {{ event.date_fin | date:'dd/MM/yyyy' }}
+      </span>
+      <span class="event-location">
+        <mat-icon>location_on</mat-icon>
+        {{ event.lieu }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Section détails -->
+  <div class="event-details">
+    <div class="detail-section">
+      <h2><mat-icon>info</mat-icon> Description</h2>
+      <p>{{ event.description }}</p>
+    </div>
+
+    <div class="detail-section">
+      <h2><mat-icon>schedule</mat-icon> Horaires</h2>
+      <!-- <p>abla - banger</p> -->
+    </div>
+
+    <div class="detail-section">
+      <h2><mat-icon>confirmation_number</mat-icon> Billets</h2>
+      <div *ngFor="let billet of billets" class="ticket-info">
+        <h3>{{ billet.libelle }}</h3>
+        <p>Prix : {{ billet.prix }}€</p>
+        <p>Disponibles : {{ billet.quantite }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button mat-raised-button color="primary" class="btn-edit" (click)="editEvent()">
+      <mat-icon>edit</mat-icon>
+      Modifier l'événement
+    </button>
+    <button mat-stroked-button color="warn" class="btn-delete" (click)="deleteEvent()">
+      <mat-icon>delete</mat-icon>
+      Supprimer
+    </button>
+  </div>
+</div>

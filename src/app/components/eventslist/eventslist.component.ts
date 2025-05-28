@@ -6,10 +6,11 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { EventsService } from '../../services/events.service';
 import { Event } from '../../models/event';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-eventslist',
-  imports: [CommonModule, NavbarComponent, FooterComponent, FormsModule],
+  imports: [CommonModule, NavbarComponent, FooterComponent, FormsModule, MatIconModule],
   templateUrl: './eventslist.component.html',
   styleUrl: './eventslist.component.scss',
 })

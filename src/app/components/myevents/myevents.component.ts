@@ -8,15 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Event } from '../../models/event';
 import { EventsService } from '../../services/events.service';
 
-// interface Event {
-//   id: number;
-//   title: string;
-//   date: string;
-//   location: string;
-//   status: 'actif' | 'terminé' | 'brouillon';
-//   ticketsSold: number;
-//   totalCapacity: number;
-// }
+
 @Component({
   imports: [CommonModule, MatCardModule, MatIconModule, MatProgressBarModule, MatChipsModule],
   templateUrl: './myevents.component.html',
@@ -26,46 +18,7 @@ export class MyeventsComponent implements OnInit {
 
 
   events : Event[] = [];
-    token : string = localStorage.getItem('token') || '';
-
-  // events: Event[] = [
-  //   {
-  //     id: 1,
-  //     title: 'Concert Jazz',
-  //     date: '15/06/2023',
-  //     location: 'Paris',
-  //     status: 'actif',
-  //     ticketsSold: 124,
-  //     totalCapacity: 200
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Festival Rock',
-  //     date: '22/07/2023',
-  //     location: 'Lyon',
-  //     status: 'actif',
-  //     ticketsSold: 356,
-  //     totalCapacity: 500
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Exposition Art Moderne',
-  //     date: '05/05/2023',
-  //     location: 'Marseille',
-  //     status: 'terminé',
-  //     ticketsSold: 89,
-  //     totalCapacity: 150
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'Conférence Technologie',
-  //     date: '12/08/2023',
-  //     location: 'Toulouse',
-  //     status: 'brouillon',
-  //     ticketsSold: 0,
-  //     totalCapacity: 100
-  //   }
-  // ];
+  token : string = localStorage.getItem('token') || '';
 
   constructor(private router: Router, private eventsService: EventsService){}
   ngOnInit(): void {
@@ -95,7 +48,7 @@ export class MyeventsComponent implements OnInit {
   }
 
   viewEventDetails(eventId: number): void {
-    this.router.navigate(['/organizer/events', eventId]);
+    this.router.navigate(['admin/event/', eventId]);
   }
 
   createNewEvent(): void {

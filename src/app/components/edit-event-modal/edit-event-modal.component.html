@@ -1,0 +1,108 @@
+<mat-horizontal-stepper [linear]="true" #stepper class="event-stepper">
+  <!-- Étape 1 -->
+  <mat-step [stepControl]="eventForm.get('basicInfo')!">
+    <form [formGroup]="basicInfo">
+      <ng-template matStepLabel>Informations de base</ng-template>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="nom" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="4"></textarea>
+      </mat-form-field>
+      <div class="image-upload">
+        <label>Image principale</label>
+        <input type="file" (change)="onFileSelected($event)" />
+        <img *ngIf="eventForm.get('mediaInfo.mainImage')?.value" [src]="eventForm.get('mediaInfo.mainImage')?.value" width="200" />
+      </div>
+      <div class="stepper-buttons">
+        <button mat-button matStepperNext [disabled]="!eventForm.get('basicInfo')?.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Étape 2 -->
+  <mat-step [stepControl]="eventForm.get('dateInfo')!">
+    <form [formGroup]="dateInfo">
+      <ng-template matStepLabel>Dates</ng-template>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Date de début</mat-label>
+        <input matInput type="date" formControlName="date_debut" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Date de fin</mat-label>
+        <input matInput type="date" formControlName="date_fin" />
+      </mat-form-field>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button matStepperNext [disabled]="!eventForm.get('dateInfo')?.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Étape 3 -->
+  <mat-step [stepControl]="eventForm.get('locationInfo')!">
+    <form [formGroup]="'locationInfo'">
+      <ng-template matStepLabel>Lieu</ng-template>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Lieu</mat-label>
+        <input matInput formControlName="venue" />
+      </mat-form-field>
+      <p class="map-label">Localisez sur la carte</p>
+      <app-map (coordinatesChanged)="onCoordinatesChange($event)"></app-map>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button matStepperNext [disabled]="!eventForm.get('locationInfo')?.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Étape 4 -->
+  <mat-step [stepControl]="eventForm.get('ticketsInfo')!">
+    <form [formGroup]="eventForm">
+      <ng-template matStepLabel>Billets</ng-template>
+      <div formArrayName="ticketsInfo">
+        <div *ngFor="let ticket of ticketsInfo.controls; let i = index" [formGroupName]="i" class="ticket-block">
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label>Type</mat-label>
+            <input matInput formControlName="type" />
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label>Prix</mat-label>
+            <input matInput type="number" formControlName="price" />
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label>Quantité</mat-label>
+            <input matInput type="number" formControlName="quantity" />
+          </mat-form-field>
+          <div class="benefits-block">
+            <mat-label>Avantages</mat-label>
+            <input #benefitInput />
+            <button mat-icon-button (click)="addBenefit(i, benefitInput)"><mat-icon>add</mat-icon></button>
+            <ul>
+              <li *ngFor="let b of ticket.get('benefits')?.value; let j = index">
+                {{ b }}
+                <button mat-icon-button color="warn" (click)="removeBenefit(i, j)"><mat-icon>delete</mat-icon></button>
+              </li>
+            </ul>
+          </div>
+          <button mat-button color="warn" (click)="removeTicketType(i)">Supprimer</button>
+        </div>
+      </div>
+      <button mat-raised-button (click)="addTicketType()">Ajouter un billet</button>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Mise à jour...' : 'Mettre à jour l\'événement' }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

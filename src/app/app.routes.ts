@@ -9,6 +9,7 @@ import { CreateEventComponent } from './components/create-event/create-event.com
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyeventsComponent } from './components/myevents/myevents.component';
 import { RoleSelectionComponent } from './components/role-selection/role-selection.component';
+import { AdminEventDetailComponent } from './components/admin-event-detail/admin-event-detail.component';
 
 export const routes: Routes = [
     {path: '', component: WelcomeComponent},
@@ -26,6 +27,7 @@ export const routes: Routes = [
             {path:'dashboard', component: DashboardComponent},
             {path:'my-events', component: MyeventsComponent},
             {path:'events/create', component: CreateEventComponent},
+            {path: 'event/:id', component: AdminEventDetailComponent}
         ]
            
     }

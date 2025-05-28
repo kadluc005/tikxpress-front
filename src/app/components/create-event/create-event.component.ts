@@ -107,10 +107,6 @@ export class CreateEventComponent implements AfterViewInit{
       }, { validators: this.dateValidator }),
       locationInfo: this.fb.group({
         venue: ['', Validators.required],
-        // address: ['',],
-        // city: ['', ],
-        // postalCode: ['', [Validators.required]]
-        // postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
       }),
       mediaInfo: this.fb.group({
         mainImage: ['',],

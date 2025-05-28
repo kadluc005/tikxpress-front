@@ -9,6 +9,10 @@
     <button class="nav-btn" routerLink="/events">Événements</button>
     <button class="nav-btn" routerLink="">À propos</button>
     <button class="nav-btn">Contact</button>
-    <button class="cta-btn" routerLink="/login">Connexion</button>
+    <button
+      class="cta-btn"
+      [routerLink]="token == '' ? '/login' : '/dashboard'">
+      {{ token == '' ? 'Connexion' : 'Mon Compte' }}
+    </button>
   </nav>
 </header>

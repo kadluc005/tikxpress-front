@@ -11,11 +11,12 @@ import { MapComponent } from '../map/map.component';
 import 'boxicons'
 import { CommandesService } from '../../services/commandes.service';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-eventsdetails',
-  imports: [CommonModule, NavbarComponent, FooterComponent, MapComponent, PaymentModalComponent],
+  imports: [CommonModule, NavbarComponent, MatIconModule, FooterComponent, MapComponent, PaymentModalComponent],
   templateUrl: './eventsdetails.component.html',
   styleUrl: './eventsdetails.component.scss',
 })
