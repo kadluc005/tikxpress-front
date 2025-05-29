@@ -33,28 +33,27 @@ export class SidebarComponent {
       subItems: [
         { title: 'Tous les événements', icon: '📋', path: '/admin/events/list' },
         { title: 'Créer un événement', icon: '➕', path: '/admin/events/create' },
-        { title: 'Catégories', icon: '🏷️', path: '/admin/events/categories' }
       ]
     },
-    {
-      title: 'Billets',
-      icon: '🎫',
-      path: '/admin/tickets',
-      subItems: [
-        { title: 'Ventes', icon: '💰', path: '/admin/tickets/sales' },
-        { title: 'Types de billets', icon: '🎟️', path: '/admin/tickets/types' }
-      ]
-    },
-    {
-      title: 'Utilisateurs',
-      icon: '👥',
-      path: '/admin/users'
-    },
-    {
-      title: 'Paramètres',
-      icon: '⚙️',
-      path: '/admin/settings'
-    }
+    // {
+    //   title: 'Billets',
+    //   icon: '🎫',
+    //   path: '/admin/tickets',
+    //   subItems: [
+    //     { title: 'Ventes', icon: '💰', path: '/admin/tickets/sales' },
+    //     { title: 'Types de billets', icon: '🎟️', path: '/admin/tickets/types' }
+    //   ]
+    // },
+    // {
+    //   title: 'Utilisateurs',
+    //   icon: '👥',
+    //   path: '/admin/users'
+    // },
+    // {
+    //   title: 'Paramètres',
+    //   icon: '⚙️',
+    //   path: '/admin/settings'
+    // }
   ];
 
   constructor(private router: Router) {

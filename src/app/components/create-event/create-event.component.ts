@@ -83,7 +83,6 @@ export class CreateEventComponent implements AfterViewInit{
   }
 
   categories = ['Concert', 'Théâtre', 'Sport', 'Conférence', 'Festival', 'Exposition'];
-  ticketTypes = ['Standard', 'VIP', 'Étudiant', 'Early Bird', 'Premium'];
 
   constructor(
     private fb: FormBuilder,

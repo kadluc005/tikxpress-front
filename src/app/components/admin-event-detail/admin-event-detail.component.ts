@@ -12,13 +12,24 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-event-detail',
-  imports: [CommonModule, MatIconModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './admin-event-detail.component.html',
   styleUrl: './admin-event-detail.component.scss',
 })
 export class AdminEventDetailComponent implements OnInit {
   editEvent() {
-    throw new Error('Method not implemented.');
+    this.eventsService.getEventById(this.eventId).subscribe({
+    next: (event) => {
+      this.openEditModal(event);
+    },
+    error: (err) => {
+      console.error('Erreur récupération événement :', err);
+    },
+  });
   }
   deleteEvent() {
     throw new Error('Method not implemented.');

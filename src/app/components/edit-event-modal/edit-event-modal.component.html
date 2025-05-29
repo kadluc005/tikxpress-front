@@ -10,7 +10,9 @@
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>Type</mat-label>
         <mat-select formControlName="type">
-          <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
+          <mat-option *ngFor="let cat of categories" [value]="cat">{{
+            cat
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill" class="form-field">
@@ -20,10 +22,20 @@
       <div class="image-upload">
         <label>Image principale</label>
         <input type="file" (change)="onFileSelected($event)" />
-        <img *ngIf="eventForm.get('mediaInfo.mainImage')?.value" [src]="eventForm.get('mediaInfo.mainImage')?.value" width="200" />
+        <img
+          *ngIf="eventForm.get('mediaInfo.mainImage')?.value"
+          [src]="eventForm.get('mediaInfo.mainImage')?.value"
+          width="200"
+        />
       </div>
       <div class="stepper-buttons">
-        <button mat-button matStepperNext [disabled]="!eventForm.get('basicInfo')?.valid">Suivant</button>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="!eventForm.get('basicInfo')?.valid"
+        >
+          Suivant
+        </button>
       </div>
     </form>
   </mat-step>
@@ -42,14 +54,20 @@
       </mat-form-field>
       <div class="stepper-buttons">
         <button mat-button matStepperPrevious>Retour</button>
-        <button mat-button matStepperNext [disabled]="!eventForm.get('dateInfo')?.valid">Suivant</button>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="!eventForm.get('dateInfo')?.valid"
+        >
+          Suivant
+        </button>
       </div>
     </form>
   </mat-step>
 
   <!-- Étape 3 -->
   <mat-step [stepControl]="eventForm.get('locationInfo')!">
-    <form [formGroup]="'locationInfo'">
+    <form [formGroup]="locationInfo">
       <ng-template matStepLabel>Lieu</ng-template>
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>Lieu</mat-label>
@@ -59,7 +77,13 @@
       <app-map (coordinatesChanged)="onCoordinatesChange($event)"></app-map>
       <div class="stepper-buttons">
         <button mat-button matStepperPrevious>Retour</button>
-        <button mat-button matStepperNext [disabled]="!eventForm.get('locationInfo')?.valid">Suivant</button>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="!eventForm.get('locationInfo')?.valid"
+        >
+          Suivant
+        </button>
       </div>
     </form>
   </mat-step>
@@ -69,7 +93,11 @@
     <form [formGroup]="eventForm">
       <ng-template matStepLabel>Billets</ng-template>
       <div formArrayName="ticketsInfo">
-        <div *ngFor="let ticket of ticketsInfo.controls; let i = index" [formGroupName]="i" class="ticket-block">
+        <div
+          *ngFor="let ticket of ticketsInfo.controls; let i = index"
+          [formGroupName]="i"
+          class="ticket-block"
+        >
           <mat-form-field appearance="fill" class="form-field">
             <mat-label>Type</mat-label>
             <input matInput formControlName="type" />
@@ -85,22 +113,41 @@
           <div class="benefits-block">
             <mat-label>Avantages</mat-label>
             <input #benefitInput />
-            <button mat-icon-button (click)="addBenefit(i, benefitInput)"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button (click)="addBenefit(i, benefitInput)">
+              <mat-icon>add</mat-icon>
+            </button>
             <ul>
-              <li *ngFor="let b of ticket.get('benefits')?.value; let j = index">
+              <li
+                *ngFor="let b of ticket.get('benefits')?.value; let j = index"
+              >
                 {{ b }}
-                <button mat-icon-button color="warn" (click)="removeBenefit(i, j)"><mat-icon>delete</mat-icon></button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="removeBenefit(i, j)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
               </li>
             </ul>
           </div>
-          <button mat-button color="warn" (click)="removeTicketType(i)">Supprimer</button>
+          <button mat-button color="warn" (click)="removeTicketType(i)">
+            Supprimer
+          </button>
         </div>
       </div>
-      <button mat-raised-button (click)="addTicketType()">Ajouter un billet</button>
+      <button mat-raised-button (click)="addTicketType()">
+        Ajouter un billet
+      </button>
       <div class="stepper-buttons">
         <button mat-button matStepperPrevious>Retour</button>
-        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="isSubmitting">
-          {{ isSubmitting ? 'Mise à jour...' : 'Mettre à jour l\'événement' }}
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? "Mise à jour..." : "Mettre à jour l'événement" }}
         </button>
       </div>
     </form>

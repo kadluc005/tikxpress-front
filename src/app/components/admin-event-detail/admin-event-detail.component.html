@@ -31,7 +31,7 @@
       <h2><mat-icon>confirmation_number</mat-icon> Billets</h2>
       <div *ngFor="let billet of billets" class="ticket-info">
         <h3>{{ billet.libelle }}</h3>
-        <p>Prix : {{ billet.prix }}€</p>
+        <p>Prix : {{ billet.prix }} FCFA</p>
         <p>Disponibles : {{ billet.quantite }}</p>
       </div>
     </div>
@@ -49,3 +49,5 @@
     </button>
   </div>
 </div>
+
+<!-- <app-edit-event-modal></app-edit-event-modal> -->

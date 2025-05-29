@@ -18,6 +18,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
+  standalone: true,
   selector: 'app-edit-event-modal',
   imports: [
     ReactiveFormsModule,
@@ -32,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
   ],
   templateUrl: './edit-event-modal.component.html',
-  styleUrl: './edit-event-modal.component.scss',
+  styleUrls: ['./edit-event-modal.component.scss'],
 })
 export class EditEventModalComponent implements OnInit {
   onFileSelected($event: Event) {
@@ -47,7 +48,7 @@ export class EditEventModalComponent implements OnInit {
 
   eventForm!: FormGroup;
   isSubmitting = false;
-  categories = ['Musique', 'Sport', 'Théâtre']; // exemple
+  categories = ['Concert', 'Théâtre', 'Sport', 'Conférence', 'Festival', 'Exposition'];
 
   constructor(
     private fb: FormBuilder,
@@ -148,4 +149,18 @@ export class EditEventModalComponent implements OnInit {
   onCancel() {
     this.dialogRef.close();
   }
+
+
+  get basicInfo(): FormGroup {
+    return this.eventForm.get('basicInfo') as FormGroup;
+  }
+
+  get dateInfo(): FormGroup {
+    return this.eventForm.get('dateInfo') as FormGroup;
+  }
+
+  get locationInfo(): FormGroup {
+    return this.eventForm.get('locationInfo') as FormGroup;
+  }
+
 }
