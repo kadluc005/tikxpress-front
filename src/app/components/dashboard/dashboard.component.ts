@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, MatCardModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, MatCardModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-
   stats = [
     { 
       title: 'Événements en cours', 
@@ -41,5 +40,6 @@ export class DashboardComponent {
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
-}
 
+
+}

@@ -105,22 +105,8 @@
         <input matInput formControlName="venue" />
       </mat-form-field>
 
-      <!-- <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Adresse</mat-label>
-        <input matInput formControlName="address" />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Ville</mat-label>
-        <input matInput formControlName="city" />
-      </mat-form-field> -->
       <p>Indiquez la localisation sur la map</p>
       <app-map (coordinatesChanged)="onCoordinatesChange($event)"></app-map>
-
-      <!-- <mat-form-field appearance="fill">
-        <mat-label>Code Postal</mat-label>
-        <input matInput formControlName="postalCode" />
-      </mat-form-field> -->
 
       <div class="mt-4">
         <button mat-button matStepperPrevious>Retour</button>
@@ -131,51 +117,8 @@
     </form>
   </mat-step>
 
-  <!-- Étape 4 : Médias -->
-  <!-- <mat-step [stepControl]="mediaInfo">
-    <form [formGroup]="mediaInfo">
-      <ng-template matStepLabel>Images</ng-template>
 
-      <div class="mb-4">
-        <label>Image principale</label>
-        <input type="file" (change)="onFileSelected($event)" />
-        <img
-          *ngIf="mediaInfo.get('mainImage')?.value"
-          [src]="mediaInfo.get('mainImage')?.value"
-          width="200"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label>Galerie d’images</label>
-        <input type="file" multiple (change)="onGalleryFilesSelected($event)" />
-        <div class="flex flex-wrap gap-2 mt-2">
-          <ng-container
-            *ngFor="
-              let img of mediaInfo.get('galleryImages')?.value;
-              let i = index
-            "
-          >
-            <div>
-              <img [src]="img" width="100" />
-              <button mat-button color="warn" (click)="removeGalleryImage(i)">
-                Supprimer
-              </button>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <button mat-button matStepperPrevious>Retour</button>
-        <button mat-button matStepperNext [disabled]="!mediaInfo.valid">
-          Suivant
-        </button>
-      </div>
-    </form>
-  </mat-step> -->
-
-  <!-- Étape 5 : Billets -->
+  <!-- Étape 4 : Billets -->
   <mat-step [stepControl]="ticketsInfo">
     <form [formGroup]="eventForm">
       <ng-template matStepLabel>Billets</ng-template>

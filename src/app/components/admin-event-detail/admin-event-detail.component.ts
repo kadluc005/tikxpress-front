@@ -9,27 +9,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditEventModalComponent } from '../edit-event-modal/edit-event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-admin-event-detail',
-  imports: [
-    CommonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './admin-event-detail.component.html',
   styleUrl: './admin-event-detail.component.scss',
 })
 export class AdminEventDetailComponent implements OnInit {
   editEvent() {
     this.eventsService.getEventById(this.eventId).subscribe({
-    next: (event) => {
-      this.openEditModal(event);
-    },
-    error: (err) => {
-      console.error('Erreur récupération événement :', err);
-    },
-  });
+      next: (event) => {
+        this.openEditModal(event);
+      },
+      error: (err) => {
+        console.error('Erreur récupération événement :', err);
+      },
+    });
   }
   deleteEvent() {
     throw new Error('Method not implemented.');
@@ -69,7 +66,7 @@ export class AdminEventDetailComponent implements OnInit {
     });
   }
   getImageUrl(filename: string): string {
-    return 'http://localhost:3000' + filename;
+    return environment.BASE_API_URL + filename;
   }
 
   getEventBillet(id: number): void {

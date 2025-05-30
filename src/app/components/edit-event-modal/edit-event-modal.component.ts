@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -37,13 +37,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class EditEventModalComponent implements OnInit {
   onFileSelected($event: Event) {
-  throw new Error('Method not implemented.');
-  }
-  onCoordinatesChange($event: {
-    latitude: number | null;
-    longitude: number | null;
-  }) {
     throw new Error('Method not implemented.');
+  }
+  @ViewChild(MapComponent)
+  location!: MapComponent;
+  longitude: number |null = null;
+  latitude: number | null = null;
+  onCoordinatesChange(coords: {latitude: number | null, longitude: number | null}) {
+    if (coords.latitude !== null && coords.longitude !== null) {
+      this.latitude = coords.latitude;
+      this.longitude = coords.longitude;
+      console.log('Coordonnées mises à jour depuis la recherche:', this.latitude, this.longitude);
+    } 
+   
   }
 
   eventForm!: FormGroup;
@@ -66,7 +72,6 @@ export class EditEventModalComponent implements OnInit {
           this.data.description || '',
           [Validators.required, Validators.maxLength(1000)],
         ],
-        featured: [this.data.featured || false],
       }),
       dateInfo: this.fb.group(
         {
@@ -76,7 +81,7 @@ export class EditEventModalComponent implements OnInit {
         { validators: this.dateValidator }
       ),
       locationInfo: this.fb.group({
-        venue: [this.data.venue || '', Validators.required],
+        venue: [this.data.lieu || '', Validators.required],
       }),
       mediaInfo: this.fb.group({
         mainImage: [this.data.mainImage || ''],
@@ -106,10 +111,10 @@ export class EditEventModalComponent implements OnInit {
 
   createTicketFormGroup(ticket: any = {}): FormGroup {
     return this.fb.group({
-      type: [ticket.type || '', Validators.required],
-      price: [ticket.price || 0, Validators.required],
-      quantity: [ticket.quantity || 0, Validators.required],
-      benefits: [ticket.benefits || []],
+      type: [ticket.libelle || '', Validators.required],
+      price: [ticket.peix || 0, Validators.required],
+      quantity: [ticket.quantite || 0, Validators.required],
+      benefits: [ticket.privilege || []],
     });
   }
 
