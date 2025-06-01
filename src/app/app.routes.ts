@@ -10,6 +10,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyeventsComponent } from './components/myevents/myevents.component';
 import { RoleSelectionComponent } from './components/role-selection/role-selection.component';
 import { AdminEventDetailComponent } from './components/admin-event-detail/admin-event-detail.component';
+import { AproposComponent } from './components/apropos/apropos.component';
+import { ProfilComponent } from './components/profil/profil.component';
+import { SuperComponent } from './components/super/super.component';
 
 export const routes: Routes = [
     {path: '', component: WelcomeComponent},
@@ -19,11 +22,14 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'role-selection', component: RoleSelectionComponent},
+    {path: 'a-propos', component: AproposComponent},
+    {path: 'me', component: ProfilComponent},
 
     {
         path: 'admin',
         component: AdminComponent,
         children: [
+            {path: "super", component: SuperComponent},
             {path:'dashboard', component: DashboardComponent},
             {path:'my-events', component: MyeventsComponent},
             {path:'events/create', component: CreateEventComponent},

@@ -1,0 +1,228 @@
+<div class="super-admin-container">
+  <h1>Panneau d'administration</h1>
+
+  <mat-tab-group [(selectedIndex)]="activeTab">
+    <mat-tab label="Gestion des Utilisateurs">
+      <div class="tab-content">
+        <div class="action-bar">
+          <button mat-raised-button color="primary" (click)="editUser()">
+            <mat-icon>person_add</mat-icon>
+            Ajouter un utilisateur
+          </button>
+
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input
+              matInput
+              (keyup)="applyUserFilter()"
+              placeholder="Filtrer les utilisateurs"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="table-container">
+          <table
+            mat-table
+            [dataSource]="usersDataSource"
+            class="mat-elevation-z8"
+          >
+            <!-- Colonne ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+            </ng-container>
+
+            <!-- Colonne Nom -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <td mat-cell *matCellDef="let user">{{ user.nom }}</td>
+            </ng-container>
+
+            <!-- Colonne Prénom -->
+            <ng-container matColumnDef="prenom">
+              <th mat-header-cell *matHeaderCellDef>Prénom</th>
+              <td mat-cell *matCellDef="let user">{{ user.prenom }}</td>
+            </ng-container>
+
+            <!-- Colonne Email -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            </ng-container>
+
+            <!-- Colonne Téléphone -->
+            <ng-container matColumnDef="tel">
+              <th mat-header-cell *matHeaderCellDef>Téléphone</th>
+              <td mat-cell *matCellDef="let user">{{ user.tel }}</td>
+            </ng-container>
+
+            <!-- Colonne Type -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <td mat-cell *matCellDef="let user">
+                <mat-chip
+                  [color]="
+                    user.type === 'admin'
+                      ? 'primary'
+                      : user.type === 'organizer'
+                      ? 'accent'
+                      : ''
+                  "
+                  selected
+                >
+                  {{ getUserTypeLabel(user.type) }}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- Colonne Statut -->
+            <ng-container matColumnDef="is_active">
+              <th mat-header-cell *matHeaderCellDef>Actif</th>
+              <td mat-cell *matCellDef="let user">
+                <mat-slide-toggle
+                  [checked]="user.is_active"
+                  (change)="toggleUserStatus(user)"
+                  color="primary"
+                >
+                  {{ user.is_active ? "Oui" : "Non" }}
+                </mat-slide-toggle>
+              </td>
+            </ng-container>
+
+            <!-- Colonne Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let user">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="editUser()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedUserColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedUserColumns"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Gestion des Événements">
+      <div class="tab-content">
+        <div class="action-bar">
+          <button mat-raised-button color="primary" (click)="editEvent()">
+            <mat-icon>event_add</mat-icon>
+            Créer un événement
+          </button>
+
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input
+              matInput
+              (keyup)="applyEventFilter()"
+              placeholder="Filtrer les événements"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="table-container">
+          <table
+            mat-table
+            [dataSource]="eventsDataSource"
+            class="mat-elevation-z8"
+          >
+            <!-- Colonne ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let event">{{ event.id }}</td>
+            </ng-container>
+
+            <!-- Colonne Nom -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <td mat-cell *matCellDef="let event">{{ event.nom }}</td>
+            </ng-container>
+
+            <!-- Colonne Type -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <td mat-cell *matCellDef="let event">
+                <mat-chip>{{ event.type }}</mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- Colonne Date Début -->
+            <ng-container matColumnDef="date_debut">
+              <th mat-header-cell *matHeaderCellDef>Date Début</th>
+              <td mat-cell *matCellDef="let event">
+                {{ event.date_debut | date : "dd/MM/yyyy HH:mm" }}
+              </td>
+            </ng-container>
+
+            <!-- Colonne Date Fin -->
+            <ng-container matColumnDef="date_fin">
+              <th mat-header-cell *matHeaderCellDef>Date Fin</th>
+              <td mat-cell *matCellDef="let event">
+                {{ event.date_fin | date : "dd/MM/yyyy HH:mm" }}
+              </td>
+            </ng-container>
+
+            <!-- Colonne Lieu -->
+            <ng-container matColumnDef="lieu">
+              <th mat-header-cell *matHeaderCellDef>Lieu</th>
+              <td mat-cell *matCellDef="let event">{{ event.lieu }}</td>
+            </ng-container>
+
+            <!-- Colonne Statut -->
+            <ng-container matColumnDef="is_active">
+              <th mat-header-cell *matHeaderCellDef>Actif</th>
+              <td mat-cell *matCellDef="let event">
+                <mat-slide-toggle
+                  [checked]="event.is_active"
+                  (change)="toggleEventStatus(event)"
+                  color="primary"
+                >
+                  {{ event.is_active ? "Oui" : "Non" }}
+                </mat-slide-toggle>
+              </td>
+            </ng-container>
+
+            <!-- Colonne Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let event">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="editEvent()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedEventColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedEventColumns"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

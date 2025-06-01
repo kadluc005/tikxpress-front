@@ -60,6 +60,7 @@ export class LoginComponent {
         localStorage.setItem('token', token);
         const tokenPayload = this.decodeToken(token);
         const userId = tokenPayload.sub;
+        this.authService.getCurrentUser();
 
         this.getUserRole(userId);
         setTimeout(() => {

@@ -1,0 +1,46 @@
+<div class="modal-backdrop" *ngIf="visible">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="email-modal-title">
+    <div class="modal-header">
+      <h2 id="email-modal-title">Recevoir vos billets</h2>
+      <p>Veuillez entrer votre adresse email pour recevoir vos billets électroniques.</p>
+    </div>
+
+    <form (ngSubmit)="submitEmail()" #emailForm="ngForm">
+      <div class="modal-body">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Adresse Email</mat-label>
+          <input
+            matInput
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            email
+            placeholder="exemple@email.com"
+            #emailCtrl="ngModel"
+          />
+          <mat-error *ngIf="emailForm.submitted && emailCtrl.invalid">
+            Entrez une adresse email valide.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="modal-footer">
+        <button mat-stroked-button type="button" (click)="onClose()">
+          <mat-icon>close</mat-icon> Annuler
+        </button>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon *ngIf="!loading">send</mat-icon>
+          <mat-progress-spinner
+            *ngIf="loading"
+            diameter="20"
+            mode="indeterminate"
+            color="accent"
+          ></mat-progress-spinner>
+          Envoyer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

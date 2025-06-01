@@ -1,0 +1,134 @@
+.profile-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  .avatar {
+    margin-right: 1.5rem;
+    
+    mat-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #757575;
+    }
+  }
+  
+  .user-info {
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+    
+    p {
+      margin: 0.5rem 0 0;
+      color: #666;
+    }
+
+    .action-buttons {
+      margin-top: 1rem;
+
+      .manage-events-btn {
+        margin-top: 0.5rem;
+        
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+.tickets-section {
+  .tickets-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+  
+  .tickets-list {
+    margin-top: 1.5rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+  }
+  
+  .ticket-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #f0f0f0;
+    }
+    
+    .ticket-info {
+      h3 {
+        margin: 0 0 0.5rem;
+        color: #333;
+      }
+      
+      p {
+        margin: 0.25rem 0;
+        display: flex;
+        align-items: center;
+        color: #666;
+        font-size: 0.9rem;
+        
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-right: 8px;
+          color: #757575;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    
+    .avatar {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .ticket-card {
+    flex-direction: column;
+    align-items: flex-start !important;
+    
+    button {
+      margin-top: 1rem;
+      align-self: flex-end;
+    }
+  }
+}

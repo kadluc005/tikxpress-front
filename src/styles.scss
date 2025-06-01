@@ -1,9 +1,9 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-/* Chargement des icônes Material */
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+// Icônes une seule fois ici
+
+// Ton thème Angular Material
 html {
   @include mat.theme((
     color: (
@@ -14,13 +14,7 @@ html {
     typography: Roboto,
     density: 0,
   ));
-}/* You can add global styles to this file, and also import other style files */
-/* Variables de couleur */
-// $black: #000000;
-// $white: #FFFFFF;
-// $red: #FF0000;
-// $dark-gray: #333333;
-// $light-gray: #EAEAEA;
+}
 
 /* Variables de couleur - Palette professionnelle */
 $primary-color: #003366;      
@@ -98,9 +92,6 @@ $spacing-xs: $spacing-unit * 0.25;
     }
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

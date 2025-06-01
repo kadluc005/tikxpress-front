@@ -12,7 +12,6 @@ export class BilletsService {
   constructor(private httpClient: HttpClient) { }
 
   private baseUrl = environment.BASE_API_URL + 'type-billet/';
-  private baseUrlEvent = environment.BASE_API_URL + 'events/'; // URL de base pour les événements
   private getAuthHeaders(token: string): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${token}`

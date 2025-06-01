@@ -16,7 +16,7 @@
       <h1>{{ event.nom }}</h1>
       <div class="event-meta">
         <div class="meta-item">
-           <mat-icon>event</mat-icon>
+          <mat-icon>event</mat-icon>
           <div>
             <p class="meta-label">Date</p>
             <p class="meta-value">
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="meta-item">
-           <mat-icon>location_on</mat-icon>
+          <mat-icon>location_on</mat-icon>
           <div>
             <p class="meta-label">Lieu</p>
             <p class="meta-value">{{ event.lieu }}</p>
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="meta-item">
-           <mat-icon>timer</mat-icon>
+          <mat-icon>timer</mat-icon>
           <div>
             <p class="meta-label">Durée</p>
             <p class="meta-value">{{ getEventDuration(event) }}</p>
@@ -76,10 +76,15 @@
 
       <div *ngIf="selectedTicketList.length" class="booking-section">
         <h3>Votre sélection</h3>
-        <div class="selection-details" *ngFor="let selected of selectedTicketList">
+        <div
+          class="selection-details"
+          *ngFor="let selected of selectedTicketList"
+        >
           <div class="selected-ticket">
             <span>{{ selected.libelle }}</span>
-            <span>{{ selected.prixUnitaire }}F CFA x {{ selected.quantite }}</span>
+            <span
+              >{{ selected.prixUnitaire }}F CFA x {{ selected.quantite }}</span
+            >
           </div>
           <div class="quantity-selector">
             <button (click)="decrementQuantity(selected.libelle)">-</button>
@@ -116,3 +121,10 @@
   (close)="paymentModalVisible = false"
   (paymentSelected)="onPaymentSelected($event)"
 ></app-payment-modal>
+
+<app-email-modal
+  [visible]="emailModalVisible"
+  [defaultEmail]="email || ''"
+  (close)="emailModalVisible = false"
+  (emailSubmitted)="onEmailSubmitted($event)"
+></app-email-modal>

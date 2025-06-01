@@ -12,11 +12,13 @@ import 'boxicons'
 import { CommandesService } from '../../services/commandes.service';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 import { MatIconModule } from '@angular/material/icon';
+import { EmailModalComponent } from '../email-modal/email-modal.component';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
   selector: 'app-eventsdetails',
-  imports: [CommonModule, NavbarComponent, MatIconModule, FooterComponent, MapComponent, PaymentModalComponent],
+  imports: [CommonModule, NavbarComponent, MatIconModule, FooterComponent, MapComponent, PaymentModalComponent, EmailModalComponent],
   templateUrl: './eventsdetails.component.html',
   styleUrl: './eventsdetails.component.scss',
 })
@@ -28,17 +30,30 @@ export class EventsdetailsComponent implements OnInit {
 
   selectedTickets: { [libelle: string ]: number} = {};
 
-  // modal
+  // payment modal
   paymentModalVisible = false;
   selectedPaymentMethod: string | null = null;
+
+  // email modal
+  emailModalVisible = false;
+  email : string  = '';
+  userId: number = 0;
+
 
 
   constructor(
     private route: ActivatedRoute,
     private eventsService: EventsService,
     private billetsService: BilletsService,
-    private commandeService: CommandesService
+    private commandeService: CommandesService,
+    private authService: AuthService
   ) {}
+
+  getUserEmail(){
+    const user = this.authService.getCurrentUser();
+    this.email = user && user.email ? user.email : '';
+    return this.email;
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((param) => {
@@ -119,43 +134,56 @@ export class EventsdetailsComponent implements OnInit {
 
   onPaymentSelected(method: string): void {
     this.selectedPaymentMethod = method;
-    // Tu peux maintenant continuer la réservation ici selon `method`
-    this.confirmBooking(); 
+    this.emailModalVisible = true
+  }
+
+  onEmailSubmitted(email: string){
+    this.email = email;
+    this.confirmBooking();
   }
 
   confirmBooking(): void {
-      this.commandeService.createCommande(this.token, {
-        billets: [],
-        date: new Date(),
-        prix_total: this.totalPrice
-      }).subscribe({
-        next: (commande) => {
-          const billetRequests = this.selectedTicketList.map((item) => {
+    this.commandeService.createCommande(this.token, {
+      billets: [],
+      date: new Date(),
+      prix_total: this.totalPrice
+    }).subscribe({
+      next: (commande) => {
+        const billetRequests = this.selectedTicketList
+          .map(item => {
             const billet = this.billets.find(b => b.libelle === item.libelle);
+            if (!billet?.id) return null;
+
             return {
-              type: billet?.id,
-              commande: commande.id,
+              billetData: {
+                type: billet.id,
+                commande: commande.id
+              },
+              email: this.email || '',
               prix_total: this.totalPrice
             };
-          }).filter((dto): dto is {type: number, commande: number, prix_total: number} => dto !== null);
+          })
+          .filter((dto): dto is {
+            billetData: { type: number, commande: number },
+            email: string,
+            prix_total: number
+          } => dto !== null);
 
-          Promise.all(
-            billetRequests.map(dto =>
-              this.billetsService.bookBillet(this.token, dto).toPromise()
-            )
-          ).then(() => {
-            alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
-          }).catch(error => {
-            alert("Erreur lors de la réservation des billets.");
-          });
-        },
-        error: () => {
-          alert("Erreur lors de la création de la commande.");
-        }
+        Promise.all(
+          billetRequests.map(dto =>
+            this.billetsService.bookBillet(this.token, dto).toPromise()
+          )
+        ).then(() => {
+          alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
+        }).catch(error => {
+          alert("Erreur lors de la réservation des billets.");
+        });
+      },
+      error: () => {
+        alert("Erreur lors de la création de la commande.");
+      }
     });
   }
-
-
 
 
   getEventDuration(event: any): string {

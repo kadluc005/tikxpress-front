@@ -7,11 +7,11 @@
   <!-- Menu de navigation -->
   <nav [class.open]="menuOpen">
     <button class="nav-btn" routerLink="/events">Événements</button>
-    <button class="nav-btn" routerLink="">À propos</button>
+    <button class="nav-btn" routerLink="/a-propos">À propos</button>
     <button class="nav-btn">Contact</button>
     <button
       class="cta-btn"
-      [routerLink]="token == '' ? '/login' : '/dashboard'">
+      [routerLink]="token == '' ? '/login' : '/me'">
       {{ token == '' ? 'Connexion' : 'Mon Compte' }}
     </button>
   </nav>

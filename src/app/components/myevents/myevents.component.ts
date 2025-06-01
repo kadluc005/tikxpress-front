@@ -7,10 +7,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { Event } from '../../models/event';
 import { EventsService } from '../../services/events.service';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
-  imports: [CommonModule, MatCardModule, MatIconModule, MatProgressBarModule, MatChipsModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatProgressBarModule, MatChipsModule, MatButtonModule],
   templateUrl: './myevents.component.html',
   styleUrl: './myevents.component.scss'
 })

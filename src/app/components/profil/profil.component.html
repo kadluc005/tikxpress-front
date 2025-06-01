@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="avatar">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="user-info">
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.email }}</p>
+      
+      <div class="action-buttons" *ngIf="user.isOrganizer">
+        <button 
+          mat-stroked-button 
+          color="accent"
+          (click)="manageEvents()"
+          class="manage-events-btn"
+        >
+          <mat-icon>event</mat-icon>
+          Gérer mes événements
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tickets-section">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="toggleTickets()"
+      class="tickets-toggle"
+    >
+      <mat-icon>{{ showTickets ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+      {{ showTickets ? 'Masquer mes billets' : 'Voir mes billets' }}
+    </button>
+
+    <div class="tickets-list" *ngIf="showTickets">
+      <div class="ticket-card" *ngFor="let ticket of tickets">
+        <div class="ticket-info">
+          <h3>{{ ticket.concertName }}</h3>
+          <p>
+            <mat-icon>calendar_today</mat-icon>
+            {{ ticket.date | date:'dd/MM/yyyy' }}
+          </p>
+          <p>
+            <mat-icon>location_on</mat-icon>
+            {{ ticket.location }}
+          </p>
+        </div>
+        <button 
+          mat-stroked-button 
+          color="primary" 
+          (click)="downloadTicket(ticket)"
+          [disabled]="ticket.downloaded"
+        >
+          <mat-icon>download</mat-icon>
+          {{ ticket.downloaded ? 'Déjà téléchargé' : 'Télécharger le billet' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

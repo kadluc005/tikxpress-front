@@ -51,7 +51,10 @@ export interface Billet {
 }
 
 export interface CreateBilletDto {
-    type: number; 
-    commande: number;
+    billetData:{
+        type: number; 
+        commande: number;
+    };
+    email:string;
 }
 
