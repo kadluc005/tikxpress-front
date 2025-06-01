@@ -1,10 +1,8 @@
-@use '../../../styles.scss' as global;
-
 .admin-sidebar {
   width: 250px;
   height: 100vh;
-  background-color: darken(global.$primary-color, 10%);
-  color: global.$white;
+  background-color: #002b5c; // darken($primary-color, 10%) approximé
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
@@ -16,7 +14,7 @@
   &.collapsed {
     width: 60px;
 
-    .menu-title, 
+    .menu-title,
     .submenu-title,
     .user-details,
     .logout-text,
@@ -24,18 +22,18 @@
       display: none;
     }
 
-    .menu-main-item, 
+    .menu-main-item,
     .submenu-item {
       justify-content: center;
     }
   }
 
   .sidebar-header {
-    padding: global.$spacing-lg;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(global.$white, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
     h3 {
       margin: 0;
@@ -45,39 +43,39 @@
     .toggle-btn {
       background: none;
       border: none;
-      color: global.$white;
+      color: #ffffff;
       cursor: pointer;
       font-size: 1rem;
-      padding: global.$spacing-xs;
+      padding: 0.25rem;
     }
   }
 
   .sidebar-menu {
     flex: 1;
     overflow-y: auto;
-    padding: global.$spacing-md 0;
+    padding: 1rem 0;
 
     .menu-item {
-      margin-bottom: global.$spacing-xs;
+      margin-bottom: 0.25rem;
 
       .menu-main-item {
         display: flex;
         align-items: center;
-        padding: global.$spacing-md global.$spacing-lg;
+        padding: 1rem 1.5rem;
         cursor: pointer;
         transition: background-color 0.3s ease;
         position: relative;
 
         &:hover {
-          background-color: rgba(global.$white, 0.1);
+          background-color: rgba(255, 255, 255, 0.1);
         }
 
         &.active {
-          background-color: global.$secondary-color;
+          background-color: #ff9800; // $secondary-color
         }
 
         .menu-icon {
-          margin-right: global.$spacing-md;
+          margin-right: 1rem;
           font-size: 1.1rem;
         }
 
@@ -91,27 +89,27 @@
       }
 
       .submenu {
-        background-color: darken(global.$primary-color, 15%);
-        padding: global.$spacing-xs 0;
+        background-color: #00214a; // darken($primary-color, 15%) approximé
+        padding: 0.25rem 0;
 
         .submenu-item {
           display: flex;
           align-items: center;
-          padding: global.$spacing-sm global.$spacing-lg;
-          padding-left: global.$spacing-xl;
+          padding: 0.5rem 1.5rem;
+          padding-left: 2rem;
           cursor: pointer;
           transition: background-color 0.3s ease;
 
           &:hover {
-            background-color: rgba(global.$white, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
           }
 
           &.active {
-            background-color: rgba(global.$secondary-color, 0.7);
+            background-color: rgba(255, 152, 0, 0.7);
           }
 
           .submenu-icon {
-            margin-right: global.$spacing-md;
+            margin-right: 1rem;
             font-size: 1rem;
           }
         }
@@ -120,23 +118,23 @@
   }
 
   .sidebar-footer {
-    border-top: 1px solid rgba(global.$white, 0.1);
-    padding: global.$spacing-md;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
 
     .user-info {
       display: flex;
       align-items: center;
-      margin-bottom: global.$spacing-md;
+      margin-bottom: 1rem;
 
       .user-avatar {
         width: 40px;
         height: 40px;
-        background-color: rgba(global.$white, 0.2);
+        background-color: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: global.$spacing-md;
+        margin-right: 1rem;
         font-size: 1.2rem;
       }
 
@@ -160,20 +158,20 @@
       width: 100%;
       background: none;
       border: none;
-      color: global.$white;
+      color: #ffffff;
       display: flex;
       align-items: center;
-      padding: global.$spacing-sm;
+      padding: 0.5rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
       border-radius: 4px;
 
       &:hover {
-        background-color: rgba(global.$white, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
       }
 
       .logout-icon {
-        margin-right: global.$spacing-sm;
+        margin-right: 0.5rem;
       }
     }
   }

@@ -1,18 +1,13 @@
-/* event-details.component.scss */
-@use "../../../styles.scss" as global;
-@import "../../../styles.scss";
-
-
 .event-detail-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: global.$spacing-xl;
+  padding: 64px;
 
   .event-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: global.$spacing-xl;
-    margin-bottom: global.$spacing-xl;
+    gap: 64px;
+    margin-bottom: 64px;
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -24,33 +19,33 @@
       background-position: center;
       border-radius: 8px;
       position: relative;
-      box-shadow: 0 4px 12px rgba(global.$black, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
       .event-badge {
         position: absolute;
-        top: global.$spacing-md;
-        left: global.$spacing-md;
-        background-color: global.$primary-color;
-        color: global.$white;
-        padding: global.$spacing-sm global.$spacing-md;
+        top: 16px;
+        left: 16px;
+        background-color: #003366;
+        color: #fff;
+        padding: 8px 16px;
         border-radius: 4px;
         font-weight: 500;
       }
 
       .event-rating {
         position: absolute;
-        bottom: global.$spacing-md;
-        right: global.$spacing-md;
-        background-color: rgba(global.$black, 0.7);
-        color: global.$white;
-        padding: global.$spacing-sm global.$spacing-md;
+        bottom: 16px;
+        right: 16px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 8px 16px;
         border-radius: 4px;
         display: flex;
         align-items: center;
-        gap: global.$spacing-xl;
+        gap: 64px;
 
         .stars {
-          color: global.$secondary-accent;
+          color: #FFC107;
           letter-spacing: 2px;
         }
       }
@@ -58,15 +53,15 @@
 
     .event-header-content {
       h1 {
-        color: global.$primary-color;
+        color: #003366;
         font-size: 2.2rem;
-        margin-bottom: global.$spacing-lg;
+        margin-bottom: 32px;
       }
 
       .event-meta {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: global.$spacing-lg;
+        gap: 32px;
 
         @media (max-width: 480px) {
           grid-template-columns: 1fr;
@@ -74,7 +69,7 @@
 
         .meta-item {
           display: flex;
-          gap: global.$spacing-md;
+          gap: 16px;
           align-items: flex-start;
 
           .icon {
@@ -83,19 +78,19 @@
           }
 
           .meta-label {
-            color: global.$medium-gray;
+            color: #6c757d;
             font-size: 0.9rem;
-            margin-bottom: global.$spacing-xl;
+            margin-bottom: 64px;
           }
 
           .meta-value {
-            color: global.$dark-gray;
+            color: #343a40;
             font-weight: 500;
-            margin-bottom: global.$spacing-xl;
+            margin-bottom: 64px;
           }
 
           .meta-address {
-            color: global.$medium-gray;
+            color: #6c757d;
             font-size: 0.9rem;
           }
         }
@@ -106,8 +101,8 @@
   .event-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: global.$spacing-xl;
-    margin-bottom: global.$spacing-xl;
+    gap: 64px;
+    margin-bottom: 64px;
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
@@ -115,70 +110,73 @@
 
     .event-description {
       h2 {
-        color: global.$primary-color;
+        color: #003366;
         font-size: 1.8rem;
-        margin-bottom: global.$spacing-md;
+        margin-bottom: 16px;
       }
 
       p {
-        color: global.$dark-gray;
+        color: #343a40;
         line-height: 1.6;
       }
     }
 
     .ticket-selection {
       h2 {
-        color: global.$primary-color;
+        color: #003366;
         font-size: 1.8rem;
-        margin-bottom: global.$spacing-md;
+        margin-bottom: 16px;
       }
 
       .ticket-types {
         display: grid;
         grid-template-columns: 1fr;
-        gap: global.$spacing-md;
-        margin-bottom: global.$spacing-xl;
+        gap: 16px;
+        margin-bottom: 64px;
 
         .ticket-card {
-          @include global.card-style;
+          border-radius: 8px;
+          background-color: #fff;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+          padding: 24px;
           cursor: pointer;
           transition: all 0.3s ease;
           border: 2px solid transparent;
 
           &:hover {
-            border-color: global.$accent-color;
+            border-color: #17a2b8;
           }
 
           &.selected {
-            border-color: global.$secondary-color;
-            background-color: lighten(global.$secondary-color, 45%);
+            border-color: #28a745;
+            background-color: #e5f6ea;
           }
 
           h3 {
-            color: global.$primary-color;
-            margin-bottom: global.$spacing-sm;
+            color: #003366;
+            margin-bottom: 8px;
           }
 
           .ticket-price {
-            color: global.$secondary-color;
+            color: #28a745;
             font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: global.$spacing-md;
+            margin-bottom: 16px;
           }
 
           .ticket-available {
-            color: global.$medium-gray;
+            color: #6c757d;
             font-size: 0.9rem;
-            margin-bottom: global.$spacing-sm;
+            margin-bottom: 8px;
           }
 
           .ticket-benefits {
             margin: 0;
-            padding-left: global.$spacing-md;
-            color: global.$dark-gray;
+            padding-left: 16px;
+            color: #343a40;
 
             li {
-              margin-bottom: global.$spacing-sm;
+              margin-bottom: 8px;
               font-size: 0.9rem;
             }
           }
@@ -186,19 +184,21 @@
       }
 
       .booking-section {
-        @include global.card-style;
-        padding: global.$spacing-lg;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        padding: 32px;
+        border-radius: 8px;
 
         h3 {
-          color: global.$primary-color;
-          margin-bottom: global.$spacing-lg;
+          color: #003366;
+          margin-bottom: 32px;
         }
 
         .selection-details {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: global.$spacing-lg;
+          margin-bottom: 32px;
 
           .selected-ticket {
             display: flex;
@@ -209,7 +209,7 @@
             }
 
             span:last-child {
-              color: global.$medium-gray;
+              color: #6c757d;
               font-size: 0.9rem;
             }
           }
@@ -217,11 +217,11 @@
           .quantity-selector {
             display: flex;
             align-items: center;
-            gap: global.$spacing-md;
+            gap: 16px;
 
             button {
-              background-color: global.$primary-color;
-              color: global.$white;
+              background-color: #003366;
+              color: #fff;
               border: none;
               width: 32px;
               height: 32px;
@@ -233,7 +233,7 @@
               transition: background-color 0.3s;
 
               &:hover {
-                background-color: darken(global.$primary-color, 10%);
+                background-color: #0056b3;
               }
             }
           }
@@ -242,24 +242,32 @@
         .total-price {
           display: flex;
           justify-content: space-between;
-          padding: global.$spacing-md 0;
-          border-top: 1px solid global.$light-gray;
-          border-bottom: 1px solid global.$light-gray;
-          margin-bottom: global.$spacing-lg;
+          padding: 16px 0;
+          border-top: 1px solid #dee2e6;
+          border-bottom: 1px solid #dee2e6;
+          margin-bottom: 32px;
           font-weight: 700;
           font-size: 1.1rem;
 
           span:last-child {
-            color: global.$secondary-color;
+            color: #28a745;
           }
         }
 
         .book-button {
-          @include global.button-primary;
-          width: 100%;
-          padding: global.$spacing-md;
+          background-color: #003366;
+          color: #fff;
+          border: none;
+          padding: 16px;
           font-size: 1.1rem;
           font-weight: 600;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #0056b3;
+          }
         }
       }
     }
@@ -267,29 +275,39 @@
 
   .event-map {
     h2 {
-      color: global.$primary-color;
+      color: #003366;
       font-size: 1.8rem;
-      margin-bottom: global.$spacing-md;
+      margin-bottom: 16px;
     }
 
     .map-placeholder {
-      @include global.card-style;
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       height: 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      background-color: lighten(global.$light-gray, 5%);
+      border-radius: 8px;
+      padding: 32px;
 
       p {
-        color: global.$dark-gray;
-        margin-bottom: global.$spacing-md;
+        color: #343a40;
+        margin-bottom: 16px;
       }
 
       .map-button {
-        @include global.button-secondary;
-        padding: global.$spacing-sm global.$spacing-lg;
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #5a6268;
+        }
       }
     }
   }

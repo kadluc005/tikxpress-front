@@ -1,5 +1,3 @@
-@use "../../../styles.scss" as global;
-
 
 .role-selection-container {
   max-width: 800px;
@@ -12,13 +10,13 @@
   margin-bottom: 3rem;
 
   h1 {
-    color: global.$primary-color;
+    color: #003366;
     font-size: 2.5rem;
     margin-bottom: 1rem;
   }
 
   p {
-    color: global.$medium-gray;
+    color: #777777;
     font-size: 1.1rem;
   }
 }
@@ -45,11 +43,11 @@
   }
 
   &.client {
-    border-top: 4px solid global.$primary-color;
+    border-top: 4px solid #003366;
   }
 
   &.organizer {
-    border-top: 4px solid global.$secondary-color;
+    border-top: 4px solid #228B22;
   }
 
   .icon-container {
@@ -69,22 +67,22 @@
   }
 
   &.client .icon-container {
-    background-color: rgba(global.$primary-color, 0.1);
-    color: global.$primary-color;
+    background-color: rgba(#003366, 0.1);
+    color: #003366;
   }
 
   &.organizer .icon-container {
-    background-color: rgba(global.$secondary-color, 0.1);
-    color: global.$secondary-color;
+    background-color: rgba(#228B22, 0.1);
+    color: #228B22;
   }
 
   h2 {
-    color: global.$dark-gray;
+    color: #333333;
     margin-bottom: 1rem;
   }
 
   p {
-    color: global.$medium-gray;
+    color: #777777;
     margin-bottom: 2rem;
     min-height: 60px;
   }
@@ -100,7 +98,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: global.$medium-gray;
+  color: #777777;
   font-size: 0.9rem;
 
   mat-icon {

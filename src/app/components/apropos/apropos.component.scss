@@ -1,29 +1,29 @@
 @use '../../../styles.scss' as global;
 
 .apropos-container {
-  background-color: $background;
-  padding: $spacing-xl 0;
+  background-color: global.$background;
+  padding: global.$spacing-xl 0;
   display: flex;
   justify-content: center;
 }
 
 .apropos-card {
-  @include card-style;
+  @include global.card-style;
   max-width: 800px;
   text-align: center;
 
   h2 {
-    color: $primary-color;
-    margin-bottom: $spacing-md;
+    color: global.$primary-color;
+    margin-bottom: global.$spacing-md;
   }
 
   p {
-    color: $dark-gray;
+    color: global.$dark-gray;
     font-size: 1.1rem;
-    margin-bottom: $spacing-md;
+    margin-bottom: global.$spacing-md;
   }
 
   .btn-primary {
-    @include button-primary;
+    @include global.button-primary;
   }
 }

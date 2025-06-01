@@ -1,9 +1,7 @@
-@use '../../../styles.scss' as global;
-
 /* Pied de page */
 .luxe-footer {
-  background-color: global.$primary-color;
-  color: global.$white;
+  background-color: #1a1a2e; // global.$primary-color
+  color: #ffffff; // global.$white
   padding: 3rem 5% 1.5rem;
 
   .footer-content {
@@ -40,7 +38,7 @@
 
     .luxe {
       font-weight: 700;
-      color: global.$accent-color;
+      color: #40e0d0; // global.$accent-color
     }
   }
 
@@ -60,12 +58,12 @@
     }
 
     a {
-      color: global.$white;
+      color: #ffffff; // global.$white
       text-decoration: none;
       transition: color 0.3s;
 
       &:hover {
-        color: global.$secondary-accent;
+        color: #ff9472; // global.$secondary-accent
       }
     }
   }
@@ -73,13 +71,13 @@
   .social-icons {
     margin-top: 0.5rem;
     a {
-      color: global.$white;
+      color: #ffffff; // global.$white
       font-size: 1.2rem;
       margin-right: 0.8rem;
       transition: color 0.3s;
 
       &:hover {
-        color: global.$accent-color;
+        color: #ffcc00; // global.$accent-color
       }
     }
   }

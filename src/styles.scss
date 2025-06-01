@@ -1,37 +1,37 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 // Icônes une seule fois ici
 
 // Ton thème Angular Material
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
 /* Variables de couleur - Palette professionnelle */
-$primary-color: #003366;      
-$secondary-color: #228B22;     // Vert forêt
-$accent-color: #40E0D0;        // Turquoise
-$secondary-accent: #FFDB58;    // Jaune moutarde
+$primary-color: #003366;
+$secondary-color: #228b22; // Vert forêt
+$accent-color: #40e0d0; // Turquoise
+$secondary-accent: #ffdb58; // Jaune moutarde
 $black: #000000;
-$white: #FFFFFF;
+$white: #ffffff;
 $dark-gray: #333333;
 $medium-gray: #777777;
-$light-gray: #EAEAEA;
-$background: #FAF9F6; // Blanc cassé
-
-
+$light-gray: #eaeaea;
+$background: #faf9f6; // Blanc cassé
 
 /* Variables typographiques */
-$font-stack: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-stack: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 $font-size-base: 1rem;
 $line-height-base: 1.5;
 
@@ -43,55 +43,58 @@ $spacing-lg: $spacing-unit * 1.5;
 $spacing-xl: $spacing-unit * 2;
 $spacing-xs: $spacing-unit * 0.25;
 
-
-
-*{
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+* {
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 // styles.scss
 @mixin button-secondary {
-    background-color: $secondary-color; // Vert forêt (#228B22)
-    color: $white;
-    border: none;
-    padding: $spacing-sm $spacing-md;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: darken($secondary-color, 10%);
-    }
+  background-color: $secondary-color; // Vert forêt (#228B22)
+  color: $white;
+  border: none;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+  }
 }
 
 // styles.scss
 @mixin button-primary {
-    background-color: $primary-color; // Vert forêt (#228B22)
-    color: $white;
-    border: none;
-    padding: $spacing-sm $spacing-md;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: darken($primary-color, 10%);
-    }
+  background-color: $primary-color; // Vert forêt (#228B22)
+  color: $white;
+  border: none;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
 }
 
 // styles.scss
 @mixin card-style {
-    background-color: $white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba($black, 0.1);
-    padding: $spacing-lg;
-    
-    // Variante optionnelle
-    &--highlight {
-      border-left: 4px solid $secondary-accent;
-    }
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba($black, 0.1);
+  padding: $spacing-lg;
+
+  // Variante optionnelle
+  &--highlight {
+    border-left: 4px solid $secondary-accent;
+  }
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

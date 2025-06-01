@@ -1,13 +1,11 @@
-@use "../../../styles.scss" as global;
-
 /* En-tête */
 .luxe-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 5%;
-  background-color: global.$primary-color;
-  color: global.$white;
+  background-color: #003366; // global.$primary-color
+  color: #ffffff; // global.$white
   position: relative;
   cursor: pointer;
 
@@ -17,7 +15,7 @@
 
     .luxe {
       font-weight: 700;
-      color: global.$accent-color;
+      color: #40e0d0; // global.$accent-color
     }
   }
 
@@ -26,7 +24,7 @@
     font-size: 1.8rem;
     background: none;
     border: none;
-    color: global.$white;
+    color: #ffffff; // global.$white
     cursor: pointer;
   }
 
@@ -44,13 +42,13 @@
       transition: color 0.3s;
 
       &:hover {
-        color: global.$secondary-accent;
+        color: #ffdb58; // global.$secondary-accent
       }
     }
 
     .cta-btn {
-      background-color: global.$secondary-color;
-      color: global.$white;
+      background-color: #228b22; // global.$secondary-color
+      color: #ffffff; // global.$white
       border: none;
       padding: 0.5rem 1.5rem;
       border-radius: 4px;
@@ -75,7 +73,7 @@
       top: 100%;
       left: 0;
       width: 100%;
-      background-color: global.$primary-color;
+      background-color: #003366; // global.$primary-color
       flex-direction: column;
       align-items: flex-start;
       padding: 1rem;

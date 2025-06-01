@@ -1,106 +1,120 @@
-@use '../../../styles.scss' as global;
-
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  padding: global.$spacing-xl;
-  background-color: global.$background;
+  padding: 2rem;
+  background-color: #FAF9F6; // blanc cassé
 }
 
 .login-card {
-  @include global.card-style;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 450px;
-  padding: global.$spacing-xl 4rem global.$spacing-xl global.$spacing-xl;
-  box-shadow: 0 4px 12px rgba(global.$black, 0.1);
+  padding: 2rem 4rem 2rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   .login-header {
     text-align: center;
-    margin-bottom: global.$spacing-xl;
+    margin-bottom: 2rem;
 
     h2 {
-      color: global.$primary-color;
+      color: #003366; // bleu foncé
       font-size: 1.8rem;
-      margin-bottom: global.$spacing-sm;
+      margin-bottom: 0.5rem;
     }
 
     p {
-      color: global.$medium-gray;
+      color: #777777; // gris moyen
     }
   }
 
   .login-form {
     .form-group {
-      margin-bottom: global.$spacing-lg;
+      margin-bottom: 1.5rem;
 
       label {
         display: block;
-        margin-bottom: global.$spacing-xl;
-        color: global.$dark-gray;
+        margin-bottom: 2rem;
+        color: #333333; // gris foncé
         font-weight: 500;
       }
 
       input {
         width: 100%;
-        padding: global.$spacing-md;
-        border: 1px solid global.$light-gray;
+        padding: 1rem;
+        border: 1px solid #EAEAEA; // gris clair
         border-radius: 4px;
         font-size: 1rem;
         transition: border-color 0.3s;
 
         &:focus {
           outline: none;
-          border-color: global.$primary-color;
+          border-color: #003366; // bleu foncé
         }
       }
 
       .error-message {
         color: #e74c3c;
         font-size: 0.8rem;
-        margin-top: global.$spacing-xs;
+        margin-top: 0.25rem;
       }
     }
 
     .login-error {
       color: #e74c3c;
       background-color: #fadbd8;
-      padding: global.$spacing-md;
+      padding: 1rem;
       border-radius: 4px;
-      margin-bottom: global.$spacing-lg;
+      margin-bottom: 1.5rem;
       text-align: center;
     }
 
     .login-button {
-      @include global.button-primary;
+      background-color: #003366;
+      color: #FFFFFF;
+      border: none;
+      padding: 1rem;
+      border-radius: 4px;
       width: 100%;
-      padding: global.$spacing-md;
       font-size: 1rem;
       font-weight: 600;
-      margin-top: global.$spacing-md;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: darken(#003366, 10%);
+      }
+
+      &:disabled {
+        background-color: #777777;
+        cursor: not-allowed;
+      }
     }
 
     .login-footer {
-      margin-top: global.$spacing-xl;
+      margin-top: 2rem;
       text-align: center;
       font-size: 0.9rem;
-      color: global.$medium-gray;
+      color: #777777;
 
       a {
-        color: global.$primary-color;
+        color: #003366;
         text-decoration: none;
         transition: color 0.3s;
 
         &:hover {
-          color: darken(global.$primary-color, 10%);
+          color: darken(#003366, 10%);
           text-decoration: underline;
         }
       }
 
       .forgot-password {
         display: block;
-        margin-top: global.$spacing-sm;
+        margin-top: 0.5rem;
       }
     }
   }
