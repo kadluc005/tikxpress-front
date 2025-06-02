@@ -5,7 +5,7 @@
     <mat-tab label="Gestion des Utilisateurs">
       <div class="tab-content">
         <div class="action-bar">
-          <button mat-raised-button color="primary" (click)="editUser()">
+          <button mat-raised-button color="primary">
             <mat-icon>person_add</mat-icon>
             Ajouter un utilisateur
           </button>
@@ -14,7 +14,6 @@
             <mat-label>Rechercher</mat-label>
             <input
               matInput
-              (keyup)="applyUserFilter()"
               placeholder="Filtrer les utilisateurs"
             />
             <mat-icon matSuffix>search</mat-icon>
@@ -97,7 +96,6 @@
                 <button
                   mat-icon-button
                   color="primary"
-                  (click)="editUser()"
                 >
                   <mat-icon>edit</mat-icon>
                 </button>
@@ -120,7 +118,7 @@
     <mat-tab label="Gestion des Événements">
       <div class="tab-content">
         <div class="action-bar">
-          <button mat-raised-button color="primary" (click)="editEvent()">
+          <button mat-raised-button color="primary">
             <mat-icon>event_add</mat-icon>
             Créer un événement
           </button>
@@ -129,7 +127,6 @@
             <mat-label>Rechercher</mat-label>
             <input
               matInput
-              (keyup)="applyEventFilter()"
               placeholder="Filtrer les événements"
             />
             <mat-icon matSuffix>search</mat-icon>
@@ -205,7 +202,6 @@
                 <button
                   mat-icon-button
                   color="primary"
-                  (click)="editEvent()"
                 >
                   <mat-icon>edit</mat-icon>
                 </button>

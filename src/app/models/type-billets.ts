@@ -8,6 +8,8 @@ export interface TypeBillets {
     privileges: string;
 
     quantite: number;
+    
+    quantiteRestante: number;
 
     event: Event;
 
@@ -26,6 +28,7 @@ export interface CreateTypeBilletDto {
     prix: number;
     privileges: string;
     quantite: number;
+    quantiteRestante: number;
     eventId: number;
 }
 
@@ -34,10 +37,9 @@ export interface UpdateTypeBilletDto {
     prix?: number;
     privileges?: string;
     quantite?: number;
-    eventId: number;
+    quantiteRestante?: number;
+    eventId?: number;
     updated_at?: Date;
-    
-
 }
 
 export interface Billet {

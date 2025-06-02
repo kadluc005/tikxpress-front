@@ -34,15 +34,15 @@
   
     <div class="sidebar-footer">
       <div class="user-info" *ngIf="!isCollapsed">
-        <div class="user-avatar">👤</div>
+        <div class="user-avatar"><mat-icon>person</mat-icon></div>
         <div class="user-details">
           <span class="user-name">Lucien</span>
           <span class="user-role">Administrateur</span>
         </div>
       </div>
       <button class="logout-btn" [title]="isCollapsed ? 'Déconnexion' : ''">
-        <span class="logout-icon">🚪</span>
-        <span *ngIf="!isCollapsed" class="logout-text" routerLink="/login">Déconnexion</span>
+        <span class="logout-icon"><mat-icon>logout</mat-icon></span>
+        <span *ngIf="!isCollapsed" class="logout-text" (click)="deconnexion()">Déconnexion</span>
       </button>
     </div>
   </div>

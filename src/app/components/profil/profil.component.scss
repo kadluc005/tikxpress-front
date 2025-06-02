@@ -11,10 +11,10 @@
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-  
+
   .avatar {
     margin-right: 1.5rem;
-    
+
     mat-icon {
       font-size: 64px;
       width: 64px;
@@ -22,27 +22,42 @@
       color: #757575;
     }
   }
-  
+
   .user-info {
     h2 {
       margin: 0;
       font-size: 1.5rem;
       color: #333;
     }
-    
+
     p {
       margin: 0.5rem 0 0;
       color: #666;
     }
 
     .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       margin-top: 1rem;
 
       .manage-events-btn {
-        margin-top: 0.5rem;
-        
+        // margin-top: 0.5rem;
+
         mat-icon {
           margin-right: 8px;
+        }
+      }
+      .custom-red-button {
+        color: #e53935;
+        border-color: #e53935;
+
+        &:hover {
+          background-color: rgba(229, 57, 53, 0.1);
+        }
+
+        mat-icon {
+          color: #e53935;
         }
       }
     }
@@ -55,18 +70,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     mat-icon {
       margin-right: 8px;
     }
   }
-  
+
   .tickets-list {
     margin-top: 1.5rem;
     border-top: 1px solid #eee;
     padding-top: 1.5rem;
   }
-  
+
   .ticket-card {
     display: flex;
     justify-content: space-between;
@@ -76,24 +91,24 @@
     border-radius: 4px;
     background: #f9f9f9;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: #f0f0f0;
     }
-    
+
     .ticket-info {
       h3 {
         margin: 0 0 0.5rem;
         color: #333;
       }
-      
+
       p {
         margin: 0.25rem 0;
         display: flex;
         align-items: center;
         color: #666;
         font-size: 0.9rem;
-        
+
         mat-icon {
           font-size: 16px;
           width: 16px;
@@ -111,21 +126,21 @@
     padding: 1rem;
     margin: 1rem;
   }
-  
+
   .profile-header {
     flex-direction: column;
     text-align: center;
-    
+
     .avatar {
       margin-right: 0;
       margin-bottom: 1rem;
     }
   }
-  
+
   .ticket-card {
     flex-direction: column;
     align-items: flex-start !important;
-    
+
     button {
       margin-top: 1rem;
       align-self: flex-end;

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { Auth } from '../../models/user';
 import { Event } from '../../models/event';
+import { AuthService } from '../../services/auth.service';
+import { EventsService } from '../../services/events.service';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -37,19 +41,23 @@ import { CommonModule } from '@angular/common';
   templateUrl: './super.component.html',
   styleUrl: './super.component.scss'
 })
-export class SuperComponent implements OnInit{
+export class SuperComponent implements OnInit {
 
   activeTab: 'users' | 'events' = 'users';
-  
-  // Données utilisateurs
+
   usersDataSource = new MatTableDataSource<Auth>();
-  displayedUserColumns = ['id', 'nom', 'prenom', 'email', 'tel', 'type', 'is_active', 'actions'];
-  
-  // Données événements
+  displayedUserColumns = ['id', 'nom', 'prenom', 'email', 'tel','is_active', 'actions'];
+
   eventsDataSource = new MatTableDataSource<Event>();
   displayedEventColumns = ['id', 'nom', 'type', 'date_debut', 'date_fin', 'lieu', 'is_active', 'actions'];
 
-  constructor(private dialog: MatDialog) {}
+  @ViewChild('userPaginator') userPaginator!: MatPaginator;
+  @ViewChild('userSort') userSort!: MatSort;
+
+  @ViewChild('eventPaginator') eventPaginator!: MatPaginator;
+  @ViewChild('eventSort') eventSort!: MatSort;
+
+  constructor(private dialog: MatDialog, private authService: AuthService, private eventsService: EventsService) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -57,107 +65,62 @@ export class SuperComponent implements OnInit{
   }
 
   loadUsers() {
-    // Simulation de données - à remplacer par un appel API
-    this.usersDataSource.data = [
-      {
-        id: 1,
-        nom: 'Dupont',
-        prenom: 'Jean',
-        email: 'jean@example.com',
-        tel: '0612345678',
-        password: '',
-        type: 'user',
-        is_active: true,
-        is_visible: true,
-        created_at: new Date(),
-        updated_at: new Date()
+    const token = localStorage.getItem('token') || '';
+    this.authService.getAllUsers(token).subscribe({
+      next: users => {
+        this.usersDataSource.data = users;
+        this.usersDataSource.paginator = this.userPaginator;
+        this.usersDataSource.sort = this.userSort;
       },
-      {
-        id: 2,
-        nom: 'Martin',
-        prenom: 'Marie',
-        email: 'marie@example.com',
-        tel: '0698765432',
-        password: '',
-        type: 'organizer',
-        is_active: true,
-        is_visible: true,
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    ];
+      error: err => console.error('Erreur lors du chargement des utilisateurs', err)
+    });
   }
 
   loadEvents() {
-    // Simulation de données - à remplacer par un appel API
-    this.eventsDataSource.data = [
-      {
-        id: 1,
-        nom: 'Concert Rock',
-        description: 'Un super concert de rock',
-        type: 'musique',
-        date_debut: new Date('2023-12-15T20:00:00'),
-        date_fin: new Date('2023-12-15T23:00:00'),
-        lieu: 'Paris, France',
-        latitude: 48.8566,
-        longitude: 2.3522,
-        image_url: 'assets/rock.jpg',
-        is_active: true,
-        is_visible: true,
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    ];
+    this.eventsService.getAllEvents().subscribe({
+      next: events => {
+        this.eventsDataSource.data = events;
+        this.eventsDataSource.paginator = this.eventPaginator;
+        this.eventsDataSource.sort = this.eventSort;
+      },
+      error: err => console.error('Erreur lors du chargement des événements', err)
+    });
   }
 
-  // Méthodes pour les utilisateurs
-  editUser() {//param user: Auth
-    // this.dialog.open(UserFormComponent, {
-    //   width: '600px',
-    //   data: { user }
-    // }).afterClosed().subscribe(result => {
-    //   if (result) this.loadUsers();
-    // });
-  }
+  // applyUserFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.usersDataSource.filter = filterValue.trim().toLowerCase();
+  // }
+
+  // applyEventFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.eventsDataSource.filter = filterValue.trim().toLowerCase();
+  // }
 
   toggleUserStatus(user: Auth) {
     user.is_active = !user.is_active;
-    // Ici vous devriez faire un appel API pour sauvegarder
-  }
-
-  // Méthodes pour les événements
-  editEvent() {// param event: Event
-    // this.dialog.open(EventFormComponent, {
-    //   width: '800px',
-    //   data: { event }
-    // }).afterClosed().subscribe(result => {
-    //   if (result) this.loadEvents();
-    // });
+    // TODO: appel API pour sauvegarder
   }
 
   toggleEventStatus(event: Event) {
     event.is_active = !event.is_active;
-    // Ici vous devriez faire un appel API pour sauvegarder
+    // TODO: appel API pour sauvegarder
   }
 
-  // Filtres
-  applyUserFilter() { //param event: Event
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.usersDataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  applyEventFilter() {
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.eventsDataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  // Helper pour afficher le type d'utilisateur
   getUserTypeLabel(type: string): string {
-    const types: {[key: string]: string} = {
-      'user': 'Utilisateur',
-      'organizer': 'Organisateur',
-      'admin': 'Administrateur'
+    const types: { [key: string]: string } = {
+      user: 'Utilisateur',
+      organizer: 'Organisateur',
+      admin: 'Administrateur'
     };
     return types[type] || type;
+  }
+
+  editUser(user: Auth) {
+    // TODO: ouvrir un formulaire dans une boîte de dialogue
+  }
+
+  editEvent(event: Event) {
+    // TODO: ouvrir un formulaire dans une boîte de dialogue
   }
 }

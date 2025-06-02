@@ -69,6 +69,14 @@ export class AdminEventDetailComponent implements OnInit {
     return environment.BASE_API_URL + filename;
   }
 
+  quantitySold(i: number, f: number){
+    return i - f;
+  }
+
+  totalRecipe(prix: number, quantite: number): number {
+    return prix * quantite;
+  }
+
   getEventBillet(id: number): void {
     // id = this.event.id;
     // console.log(id);

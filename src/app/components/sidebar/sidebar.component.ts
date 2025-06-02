@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 interface MenuItem {
   title: string;
@@ -12,7 +13,7 @@ interface MenuItem {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -80,6 +81,11 @@ export class SidebarComponent {
 
   navigate(path: string): void {
     this.router.navigate([path]);
+  }
+  deconnexion(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/login']);
   }
 
 }

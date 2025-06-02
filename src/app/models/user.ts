@@ -28,15 +28,17 @@ export interface Auth {
 
   tel: string;
 
-  password: string;
+  nomEntreprise?: string;
 
-  type: string;
+  password?: string;
 
-  is_active: boolean;
+  type?: string;
 
-  is_visible: boolean;
+  is_active?: boolean;
 
-  created_at: Date;
+  is_visible?: boolean;
 
-  updated_at: Date;
+  created_at?: Date;
+
+  updated_at?: Date;
 }

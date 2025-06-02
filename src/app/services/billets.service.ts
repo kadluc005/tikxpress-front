@@ -29,8 +29,9 @@ export class BilletsService {
     
   }
 
-  updateBillet(id: number, updateTypeBilletDto: UpdateTypeBilletDto): Observable<TypeBillets> {
-    return this.httpClient.patch<TypeBillets>(this.baseUrl + id, updateTypeBilletDto);
+  updateBillet(jwtToken:string, id: number, updateTypeBilletDto: UpdateTypeBilletDto): Observable<TypeBillets> {
+    const headers = this.getAuthHeaders(jwtToken)
+    return this.httpClient.patch<TypeBillets>(this.baseUrl + id, updateTypeBilletDto, { headers: headers });
   }
 
   deleteBillet(id: number): Observable<any> {

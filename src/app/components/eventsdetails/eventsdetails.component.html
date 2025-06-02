@@ -39,13 +39,6 @@
             <p class="meta-value">{{ getEventDuration(event) }}</p>
           </div>
         </div>
-        <!-- <div class="meta-item">
-          <i class="icon">🏢</i>
-          <div>
-            <p class="meta-label">Organisateur</p>
-            <p class="meta-value">{{ event.nom }}</p>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -67,7 +60,9 @@
         >
           <h3>{{ ticket.libelle }}</h3>
           <p class="ticket-price">{{ ticket.prix }}F CFA</p>
-          <p class="ticket-available">{{ ticket.quantite }} places restantes</p>
+          <p class="ticket-available">
+            {{ ticket.quantiteRestante }} places restantes
+          </p>
           <ul class="ticket-benefits">
             <li *ngFor="let benefit of ticket.privileges">✓ {{ benefit }}</li>
           </ul>

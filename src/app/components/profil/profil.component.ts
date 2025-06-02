@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profil',
@@ -17,15 +19,44 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss',
 })
-export class ProfilComponent {
-  user = {
-    name: 'Jean Dupont',
-    email: 'jean.dupont@example.com',
-    isOrganizer: false, // Ajouté pour gérer l'affichage du bouton organisateur
-  };
+export class ProfilComponent implements OnInit{
+  me: any = null;
+  token: string = localStorage.getItem('token') || '';
+  statut : string = localStorage.getItem('userRole') || '';
+  // user = {
+  //   id: this.me?.sub || 1, // Utilise l'ID de l'utilisateur courant ou un ID par défaut
+  //   nom: 'Jean Dupont',
+  //   email: 'jean.dupont@example.com',
+  //   prenom: 'Jean',
+  //   nomEntreprise: 'Dupont SARL',
+
+  //   tel: '0123456789',
+  // };
+  user: any = undefined;
+  constructor(private authService: AuthService, private router: Router) {
+    this.me = this.authService.getCurrentUserFromToken();
+  }
+
+  getUser(){
+    this.authService.findUserById(this.token, this.me.sub).subscribe({
+      next: (user) => {
+        this.user = {
+          id: user.id,
+          nom: user.nom,
+          email: user.email,
+          prenom: user.prenom,
+          nomEntreprise: user.nomEntreprise || '',
+          tel: user.tel || '',
+        };
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des informations utilisateur', err);
+      }
+    })
+  }
 
   showTickets = false;
-
+  isLoggedIn = !!this.token; // Vérifie si l'utilisateur est connecté
   tickets = [
     {
       concertName: 'Festival Rock en Seine',
@@ -47,6 +78,12 @@ export class ProfilComponent {
     },
   ];
 
+  ngOnInit(): void {
+    if (this.me && this.token) {
+      this.getUser();
+    }
+  }
+
   toggleTickets() {
     this.showTickets = !this.showTickets;
   }
@@ -60,5 +97,10 @@ export class ProfilComponent {
     // Navigation vers la gestion des événements
     console.log('Redirection vers la gestion des événements');
     // this.router.navigate(['/manage-events']);
+  }
+  deconnexion(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/login']);
   }
 }

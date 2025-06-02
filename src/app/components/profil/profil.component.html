@@ -5,12 +5,16 @@
       <mat-icon>account_circle</mat-icon>
     </div>
     <div class="user-info">
-      <h2>{{ user.name }}</h2>
+      <h2>{{ user.nom }} {{ user.prenom }}</h2>
       <p>{{ user.email }}</p>
+      <p>tel: {{ user.tel }}</p>
       
-      <div class="action-buttons" *ngIf="user.isOrganizer">
-        <button 
-          mat-stroked-button 
+
+      <div class="action-buttons">
+        
+        <button
+          *ngIf="statut === 'organisateur'"
+          mat-stroked-button
           color="accent"
           (click)="manageEvents()"
           class="manage-events-btn"
@@ -18,19 +22,30 @@
           <mat-icon>event</mat-icon>
           Gérer mes événements
         </button>
+
+        <button
+          mat-stroked-button
+          class="custom-red-button"
+          (click)="deconnexion()"
+        >
+          <mat-icon>logout</mat-icon>
+          Se déconnecter
+        </button>
       </div>
     </div>
   </div>
 
   <div class="tickets-section">
-    <button 
-      mat-raised-button 
-      color="primary" 
+    <button
+      mat-raised-button
+      color="primary"
       (click)="toggleTickets()"
       class="tickets-toggle"
     >
-      <mat-icon>{{ showTickets ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
-      {{ showTickets ? 'Masquer mes billets' : 'Voir mes billets' }}
+      <mat-icon>{{
+        showTickets ? "keyboard_arrow_up" : "keyboard_arrow_down"
+      }}</mat-icon>
+      {{ showTickets ? "Masquer mes billets" : "Voir mes billets" }}
     </button>
 
     <div class="tickets-list" *ngIf="showTickets">
@@ -39,21 +54,21 @@
           <h3>{{ ticket.concertName }}</h3>
           <p>
             <mat-icon>calendar_today</mat-icon>
-            {{ ticket.date | date:'dd/MM/yyyy' }}
+            {{ ticket.date | date : "dd/MM/yyyy" }}
           </p>
           <p>
             <mat-icon>location_on</mat-icon>
             {{ ticket.location }}
           </p>
         </div>
-        <button 
-          mat-stroked-button 
-          color="primary" 
+        <button
+          mat-stroked-button
+          color="primary"
           (click)="downloadTicket(ticket)"
           [disabled]="ticket.downloaded"
         >
           <mat-icon>download</mat-icon>
-          {{ ticket.downloaded ? 'Déjà téléchargé' : 'Télécharger le billet' }}
+          {{ ticket.downloaded ? "Déjà téléchargé" : "Télécharger le billet" }}
         </button>
       </div>
     </div>

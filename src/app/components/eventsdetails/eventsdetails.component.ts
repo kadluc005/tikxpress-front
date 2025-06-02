@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { EventsService } from '../../services/events.service';
@@ -43,6 +43,7 @@ export class EventsdetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private eventsService: EventsService,
     private billetsService: BilletsService,
     private commandeService: CommandesService,
@@ -77,8 +78,7 @@ export class EventsdetailsComponent implements OnInit {
 
 
   getEventBillet(id: number): void {
-    // id = this.event.id;
-    // console.log(id);
+
     this.billetsService.findEventBillet(id).subscribe((billets) => {
       this.billets = billets;
     });
@@ -97,12 +97,14 @@ export class EventsdetailsComponent implements OnInit {
     if (!billet) return;
     if (this.selectedTickets[type] < billet.quantite) {
       this.selectedTickets[type]++;
+      console.log(this.selectedTickets[type]);
     }
   }
 
   decrementQuantity(type: string): void {
     if (this.selectedTickets[type] > 1) {
       this.selectedTickets[type]--;
+      console.log(this.selectedTickets[type]);
     } else {
       delete this.selectedTickets[type];
     }
@@ -111,7 +113,21 @@ export class EventsdetailsComponent implements OnInit {
   getTicketQuantity(type: string): number {
     return this.selectedTickets[type] || 0;
   }
-
+  updateTypeBilletQuantity(type: string, quantity: number): void {
+    const billet = this.billets.find(b => b.libelle === type);
+    if (!billet) return;
+    this.billetsService.updateBillet(this.token, billet.id, {
+      quantiteRestante: quantity
+    }).subscribe({
+      next: () => {
+        console.log(`Quantité du billet "${type}" mise à jour à ${quantity}`);
+      },
+      error: (err) => {
+        console.error(`Erreur lors de la mise à jour du billet "${type}" :`, err);
+      }
+    });
+    console.log(billet)
+  }
   get selectedTicketList() {
     return Object.entries(this.selectedTickets).map(([libelle, quantite]) => {
       const billet = this.billets.find(b => b.libelle === libelle);
@@ -154,6 +170,8 @@ export class EventsdetailsComponent implements OnInit {
             const billet = this.billets.find(b => b.libelle === item.libelle);
             if (!billet?.id) return null;
 
+            this.updateTypeBilletQuantity(billet.libelle, billet.quantite - item.quantite);
+
             return {
               billetData: {
                 type: billet.id,
@@ -175,6 +193,7 @@ export class EventsdetailsComponent implements OnInit {
           )
         ).then(() => {
           alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
+          this.router.navigate(['/events']);
         }).catch(error => {
           alert("Erreur lors de la réservation des billets.");
         });
