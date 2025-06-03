@@ -35,6 +35,7 @@ export class EventslistComponent {
   constructor(private router: Router, private eventsService: EventsService) {}
 
   getImageUrl(filename: string): string {
+    console.log('Image URL:', environment.BASE_API_URL + filename);
     return environment.BASE_API_URL + filename;
   }
 
