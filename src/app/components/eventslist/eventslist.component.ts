@@ -7,6 +7,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { EventsService } from '../../services/events.service';
 import { Event } from '../../models/event';
 import { MatIconModule } from '@angular/material/icon';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-eventslist',
@@ -34,7 +35,7 @@ export class EventslistComponent {
   constructor(private router: Router, private eventsService: EventsService) {}
 
   getImageUrl(filename: string): string {
-    return 'http://localhost:3000' + filename;
+    return environment.BASE_API_URL + filename;
   }
 
   ngOnInit(): void {

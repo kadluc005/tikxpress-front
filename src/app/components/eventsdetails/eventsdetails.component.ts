@@ -14,6 +14,7 @@ import { PaymentModalComponent } from '../payment-modal/payment-modal.component'
 import { MatIconModule } from '@angular/material/icon';
 import { EmailModalComponent } from '../email-modal/email-modal.component';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment.development';
 
 
 @Component({
@@ -73,7 +74,7 @@ export class EventsdetailsComponent implements OnInit {
     });
   }
   getImageUrl(filename: string): string {
-    return 'http://localhost:3000' + filename;
+    return environment.BASE_API_URL + filename;
   }
 
 
