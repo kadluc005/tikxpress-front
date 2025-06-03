@@ -35,8 +35,10 @@ export class EventslistComponent {
   constructor(private router: Router, private eventsService: EventsService) {}
 
   getImageUrl(filename: string): string {
-    console.log('Image URL:', environment.BASE_API_URL + filename);
-    return environment.BASE_API_URL + filename;
+    const cleanFilename = filename.startsWith('/') ? filename.slice(1) : filename;
+    const url = environment.BASE_API_URL + cleanFilename;
+    console.log('Image URL:', url);
+    return url;
   }
 
   ngOnInit(): void {

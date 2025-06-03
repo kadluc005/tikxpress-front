@@ -74,7 +74,10 @@ export class EventsdetailsComponent implements OnInit {
     });
   }
   getImageUrl(filename: string): string {
-    return environment.BASE_API_URL + filename;
+    const cleanFilename = filename.startsWith('/') ? filename.slice(1) : filename;
+    const url = environment.BASE_API_URL + cleanFilename;
+    console.log('Image URL:', url);
+    return url;
   }
 
 
