@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface MenuItem {
   title: string;
@@ -13,7 +13,7 @@ interface MenuItem {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, RouterLink],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

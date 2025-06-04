@@ -3,6 +3,9 @@ import { Router, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
+import { EventsService } from '../../services/events.service';
+import { Event } from '../../models/event';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-welcome',
@@ -11,35 +14,29 @@ import { CommonModule } from '@angular/common';
   styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent {
-  featuredEvents = [
-    {
-      id: 1,
-      title: 'Concert Symphonique',
-      date: '15 DÉC 2023',
-      location: 'Opéra National',
-      price: 45,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0WzsqDruDfZRESuGoUJX3DPf3HXLg1V3INA&s'
-    },
-    {
-      id: 2,
-      title: 'Festival International',
-      date: '20-22 JAN 2024',
-      location: 'Parc des Expositions',
-      price: 120,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMTSAcWmBte83EDAWvj68LGt9GJrEaBSH7Tg&s'
-    },
-    {
-      id: 3,
-      title: 'Pièce de Théâtre',
-      date: '5 FÉV 2024',
-      location: 'Théâtre Municipal',
-      price: 35,
-      image: 'https://pbs.twimg.com/media/FYxdytoXkAAZbkK.jpg:large'
+  featuredEvents: Event[] = [];
+
+  constructor( private router: Router, private eventService: EventsService ) {}
+
+  ngOnInit(): void {
+    this.loadFeaturedEvents();
+  }
+  getImageUrl(filename: string): string {
+      const cleanFilename = filename.startsWith('/') ? filename.slice(1) : filename;
+      const url = environment.BASE_API_URL + cleanFilename;
+      console.log('Image URL:', url);
+      return url;
     }
-  ];
 
-  constructor( private router: Router ) {}
-
+  loadFeaturedEvents(): void {
+    this.eventService.getAllEvents().subscribe((events: Event[]) => {
+      // trie par date (si possible) puis prend les 3 derniers
+      this.featuredEvents = events
+        .slice() // copie du tableau pour ne pas le modifier
+        .sort((a, b) => new Date(b.date_debut).getTime() - new Date(a.date_debut).getTime())
+        .slice(0, 3);
+    });
+  }
   navigateToEvent(eventId: number) {
     this.router.navigate(['/event', eventId]);
   }

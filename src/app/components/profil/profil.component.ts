@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { CommandesService } from '../../services/commandes.service';
 
 @Component({
   selector: 'app-profil',
@@ -23,17 +24,8 @@ export class ProfilComponent implements OnInit{
   me: any = null;
   token: string = localStorage.getItem('token') || '';
   statut : string = localStorage.getItem('userRole') || '';
-  // user = {
-  //   id: this.me?.sub || 1, // Utilise l'ID de l'utilisateur courant ou un ID par défaut
-  //   nom: 'Jean Dupont',
-  //   email: 'jean.dupont@example.com',
-  //   prenom: 'Jean',
-  //   nomEntreprise: 'Dupont SARL',
-
-  //   tel: '0123456789',
-  // };
   user: any = undefined;
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private commandService: CommandesService) {
     this.me = this.authService.getCurrentUserFromToken();
   }
 
@@ -51,6 +43,16 @@ export class ProfilComponent implements OnInit{
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des informations utilisateur', err);
+      }
+    })
+  }
+  getCommandes(userId: number){
+    this.commandService.findCommandesByUserId(userId).subscribe({
+      next: (commandes) => {
+        console.log('Commandes récupérées:', commandes);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des commandes', err);
       }
     })
   }
@@ -96,7 +98,7 @@ export class ProfilComponent implements OnInit{
   manageEvents() {
     // Navigation vers la gestion des événements
     console.log('Redirection vers la gestion des événements');
-    // this.router.navigate(['/manage-events']);
+    this.router.navigate(['/admin/my-events']);
   }
   deconnexion(): void {
     localStorage.removeItem('token');

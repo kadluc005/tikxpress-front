@@ -13,6 +13,7 @@ import { AdminEventDetailComponent } from './components/admin-event-detail/admin
 import { AproposComponent } from './components/apropos/apropos.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { SuperComponent } from './components/super/super.component';
+import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 
 export const routes: Routes = [
     {path: '', component: WelcomeComponent},
@@ -36,5 +37,7 @@ export const routes: Routes = [
             {path: 'event/:id', component: AdminEventDetailComponent}
         ]
            
-    }
+    },
+    {path: "not-found", component: PagenotfoundComponent},
+    {path: '**', redirectTo: 'not-found'},
 ];

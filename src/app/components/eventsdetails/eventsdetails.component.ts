@@ -8,18 +8,26 @@ import { BilletsService } from '../../services/billets.service';
 import { Event } from '../../models/event';
 import { TypeBillets } from '../../models/type-billets';
 import { MapComponent } from '../map/map.component';
-import 'boxicons'
+import 'boxicons';
 import { CommandesService } from '../../services/commandes.service';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 import { MatIconModule } from '@angular/material/icon';
 import { EmailModalComponent } from '../email-modal/email-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment.development';
-
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-eventsdetails',
-  imports: [CommonModule, NavbarComponent, MatIconModule, FooterComponent, MapComponent, PaymentModalComponent, EmailModalComponent],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    MatIconModule,
+    FooterComponent,
+    MapComponent,
+    PaymentModalComponent,
+    EmailModalComponent,
+  ],
   templateUrl: './eventsdetails.component.html',
   styleUrl: './eventsdetails.component.scss',
 })
@@ -27,9 +35,9 @@ export class EventsdetailsComponent implements OnInit {
   event: Event = null!;
   eventId!: number;
   billets: TypeBillets[] = [];
-  token : string = localStorage.getItem('token') || '';
+  token: string = localStorage.getItem('token') || '';
 
-  selectedTickets: { [libelle: string ]: number} = {};
+  selectedTickets: { [libelle: string]: number } = {};
 
   // payment modal
   paymentModalVisible = false;
@@ -37,10 +45,8 @@ export class EventsdetailsComponent implements OnInit {
 
   // email modal
   emailModalVisible = false;
-  email : string  = '';
+  email: string = '';
   userId: number = 0;
-
-
 
   constructor(
     private route: ActivatedRoute,
@@ -48,10 +54,11 @@ export class EventsdetailsComponent implements OnInit {
     private eventsService: EventsService,
     private billetsService: BilletsService,
     private commandeService: CommandesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService
   ) {}
 
-  getUserEmail(){
+  getUserEmail() {
     const user = this.authService.getCurrentUser();
     this.email = user && user.email ? user.email : '';
     return this.email;
@@ -74,21 +81,21 @@ export class EventsdetailsComponent implements OnInit {
     });
   }
   getImageUrl(filename: string): string {
-    const cleanFilename = filename.startsWith('/') ? filename.slice(1) : filename;
+    const cleanFilename = filename.startsWith('/')
+      ? filename.slice(1)
+      : filename;
     const url = environment.BASE_API_URL + cleanFilename;
     console.log('Image URL:', url);
     return url;
   }
 
-
   getEventBillet(id: number): void {
-
     this.billetsService.findEventBillet(id).subscribe((billets) => {
       this.billets = billets;
     });
   }
   selectTicketType(type: string): void {
-    const billet = this.billets.find(b => b.libelle === type);
+    const billet = this.billets.find((b) => b.libelle === type);
     if (!billet || billet.quantite <= 0) return;
 
     if (!this.selectedTickets[type]) {
@@ -97,7 +104,7 @@ export class EventsdetailsComponent implements OnInit {
   }
 
   incrementQuantity(type: string): void {
-    const billet = this.billets.find(b => b.libelle === type);
+    const billet = this.billets.find((b) => b.libelle === type);
     if (!billet) return;
     if (this.selectedTickets[type] < billet.quantite) {
       this.selectedTickets[type]++;
@@ -118,23 +125,28 @@ export class EventsdetailsComponent implements OnInit {
     return this.selectedTickets[type] || 0;
   }
   updateTypeBilletQuantity(type: string, quantity: number): void {
-    const billet = this.billets.find(b => b.libelle === type);
+    const billet = this.billets.find((b) => b.libelle === type);
     if (!billet) return;
-    this.billetsService.updateBillet(this.token, billet.id, {
-      quantiteRestante: quantity
-    }).subscribe({
-      next: () => {
-        console.log(`Quantité du billet "${type}" mise à jour à ${quantity}`);
-      },
-      error: (err) => {
-        console.error(`Erreur lors de la mise à jour du billet "${type}" :`, err);
-      }
-    });
-    console.log(billet)
+    this.billetsService
+      .updateBillet(this.token, billet.id, {
+        quantiteRestante: quantity,
+      })
+      .subscribe({
+        next: () => {
+          console.log(`Quantité du billet "${type}" mise à jour à ${quantity}`);
+        },
+        error: (err) => {
+          console.error(
+            `Erreur lors de la mise à jour du billet "${type}" :`,
+            err
+          );
+        },
+      });
+    console.log(billet);
   }
   get selectedTicketList() {
     return Object.entries(this.selectedTickets).map(([libelle, quantite]) => {
-      const billet = this.billets.find(b => b.libelle === libelle);
+      const billet = this.billets.find((b) => b.libelle === libelle);
       return {
         libelle,
         quantite,
@@ -154,60 +166,79 @@ export class EventsdetailsComponent implements OnInit {
 
   onPaymentSelected(method: string): void {
     this.selectedPaymentMethod = method;
-    this.emailModalVisible = true
+    this.emailModalVisible = true;
   }
 
-  onEmailSubmitted(email: string){
+  onEmailSubmitted(email: string) {
     this.email = email;
     this.confirmBooking();
   }
 
   confirmBooking(): void {
-    this.commandeService.createCommande(this.token, {
-      billets: [],
-      date: new Date(),
-      prix_total: this.totalPrice
-    }).subscribe({
-      next: (commande) => {
-        const billetRequests = this.selectedTicketList
-          .map(item => {
-            const billet = this.billets.find(b => b.libelle === item.libelle);
-            if (!billet?.id) return null;
+    this.commandeService
+      .createCommande(this.token, {
+        billets: [],
+        date: new Date(),
+        prix_total: this.totalPrice,
+      })
+      .subscribe({
+        next: (commande) => {
+          const billetRequests = this.selectedTicketList
+            .map((item) => {
+              const billet = this.billets.find(
+                (b) => b.libelle === item.libelle
+              );
+              if (!billet?.id) return null;
 
-            this.updateTypeBilletQuantity(billet.libelle, billet.quantite - item.quantite);
+              this.updateTypeBilletQuantity(
+                billet.libelle,
+                billet.quantite - item.quantite
+              );
 
-            return {
-              billetData: {
-                type: billet.id,
-                commande: commande.id
-              },
-              email: this.email || '',
-              prix_total: this.totalPrice
-            };
-          })
-          .filter((dto): dto is {
-            billetData: { type: number, commande: number },
-            email: string,
-            prix_total: number
-          } => dto !== null);
+              return {
+                billetData: {
+                  type: billet.id,
+                  commande: commande.id,
+                },
+                email: this.email || '',
+                prix_total: this.totalPrice,
+              };
+            })
+            .filter(
+              (
+                dto
+              ): dto is {
+                billetData: { type: number; commande: number };
+                email: string;
+                prix_total: number;
+              } => dto !== null
+            );
 
-        Promise.all(
-          billetRequests.map(dto =>
-            this.billetsService.bookBillet(this.token, dto).toPromise()
+          Promise.all(
+            billetRequests.map((dto) =>
+              this.billetsService.bookBillet(this.token, dto).toPromise()
+            )
           )
-        ).then(() => {
-          alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
-          this.router.navigate(['/events']);
-        }).catch(error => {
-          alert("Erreur lors de la réservation des billets.");
-        });
-      },
-      error: () => {
-        alert("Erreur lors de la création de la commande.");
-      }
-    });
+            .then(() => {
+              // alert(`Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`);
+              this.alertService.show({
+                message: `Réservation confirmée avec ${this.selectedPaymentMethod} !\nTotal: ${this.totalPrice} F CFA`,
+                type: 'success',
+                duration: 5000,
+              });
+              this.router.navigate(['/events']);
+            })
+            .catch((error) => {
+              // alert("Erreur lors de la réservation des billets.");
+              this.alertService.showApiError(error);
+            });
+        },
+        error: (err) => {
+          // alert("Erreur lors de la création de la commande.");
+          this.alertService.showApiError(err);
+        },
+      });
   }
-
 
   getEventDuration(event: any): string {
     const debut = new Date(event.date_debut);
@@ -225,5 +256,4 @@ export class EventsdetailsComponent implements OnInit {
 
     return parts.join(' ');
   }
-
 }

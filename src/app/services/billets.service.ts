@@ -37,6 +37,7 @@ export class BilletsService {
   deleteBillet(id: number): Observable<any> {
     return this.httpClient.delete<any>(this.baseUrl + id);
   }
+
   getBilletById(id: number): Observable<TypeBillets> {
     return this.httpClient.get<TypeBillets>(this.baseUrl + id);
   }

@@ -1,0 +1,9 @@
+<div class="alert-container" [class]="'alert-' + data.type">
+  <div class="alert-content">
+    <mat-icon class="alert-icon">{{ icon }}</mat-icon>
+    <div class="alert-message">{{ data.message }}</div>
+  </div>
+  <button mat-icon-button class="alert-close" (click)="dismiss()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

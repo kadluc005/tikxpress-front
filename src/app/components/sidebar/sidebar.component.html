@@ -33,6 +33,13 @@
     </div>
   
     <div class="sidebar-footer">
+      <div class="user-info" style="cursor: pointer" routerLink="/">
+        <div class="user-avatar"><mat-icon>home</mat-icon></div>
+        <div class="user-details">
+          <span class="user-name">Revenir à accueil</span>
+          <!-- <span class="user-role">Administrateur</span> -->
+        </div>
+      </div>
       <div class="user-info" *ngIf="!isCollapsed">
         <div class="user-avatar"><mat-icon>person</mat-icon></div>
         <div class="user-details">
